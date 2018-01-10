@@ -1,0 +1,89 @@
+﻿@model Budget.Models.Transaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<div>
+    <h3>
+        @Model.Title
+        @if (Model.IsReconciled) {
+            <span class="h6" style="color: blue;">(Reconciled)</span>
+        }
+    </h3>
+    @if (Model.IsCredit) {
+        <h4>Credit: <span style="color:green">&#36;@Model.Amount</span></h4>
+    }
+    else {
+        <h4>Cost: <span style="color:red">&#36;@Model.Amount</span></h4>
+    }
+    @if (Model.IsReconciled && Model.IsDiscrepancy) {
+        <h6>
+            &#40;
+            <span style="color:blue">Originally recorded value:</span>
+            @if (Model.IsCredit) {
+            <span><span style="color:green">&#36;@Model.ReconciledIncorrectAmount</span></span>
+            }
+            else {
+            <span><span style="color:red">&#36;@Model.ReconciledIncorrectAmount</span></span>
+            }
+            &#41;
+        </h6>
+    }
+    else {
+        if (Model.IsReconciled && !Model.IsDiscrepancy) {
+            <h6 style="color:blue">There was no reconciliation discrepancy.</h6>
+        }
+    }
+    <h5><i>@Model.Description</i></h5>
+    
+    <p>Originated by @Model.Owner.FullName on @Model.Date</p>
+    @if (Model.IsVoided == true) {
+        <h5 style="color:red;">This Transaction has been Voided.</h5>
+    }
+    <dl class="dl-horizontal">
+        @if (Model.Institution != null) {
+            <dt>@Html.DisplayNameFor(model => model.Institution)</dt>
+            <dd>@Html.DisplayFor(model => model.Institution)</dd>
+        }
+        @if (Model.IsVoided != true) {
+            <dt>@Html.DisplayNameFor(model => model.Account)</dt>
+            <dd>@Html.DisplayFor(model => model.Account.Name)</dd>
+        }
+
+        @if (Model.ConfirmationNumber != null) {
+            <dt>@Html.DisplayNameFor(model => model.ConfirmationNumber)</dt>
+            <dd>@Html.DisplayFor(model => model.ConfirmationNumber)</dd>
+        }
+
+        @if (Model.ExpenseId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Expense.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Expense.Name)</dd>
+        }
+
+        @if (Model.IncomeId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Income.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Income.Name)</dd>
+        }
+
+        @if (Model.IsReconciled == true) {
+
+            <span style="color:blue">
+                <dt>@Html.DisplayNameFor(model => model.ReconciledDate)</dt>
+                <dd>@Html.DisplayFor(model => model.ReconciledDate)</dd>
+                @if (Model.ReconciliationExplanation != null) {
+                    <dt>@Html.DisplayNameFor(model => model.ReconciliationExplanation)</dt>
+                    <dd>@Html.DisplayFor(model => model.ReconciliationExplanation)</dd>
+                }
+            </span>
+        }
+
+    </dl>
+</div>
+
+    @*@if (Model.IsReconciled == false && Model.IsVoided == false) {
+        @Html.ActionLink("Edit Transaction", "Edit", "Transactions", new { id = Model.Id }, new { @class = "btn btn-info" })
+        <span> &nbsp;</span>
+        @Html.ActionLink("Void Transaction", "VoidTransaction", "Transactions", new { id = Model.Id }, new { @class = "btn btn-danger" })
+    }*@

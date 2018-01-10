@@ -1,0 +1,181 @@
+﻿@model Budget.Models.ViewModels.BudgetPlanViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="budgets" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="img-10vh" src="~/Content/Images/Icons/calculator.png">
+            </div>
+            <div class="h3">Budgets</div>
+        </div>
+        <div>
+            @Html.ActionLink("New Budget", "Create", "BudgetPlans", null, new { @class = "btn btn-success" })
+            <span> &nbsp;</span>
+            <a href="javascript:void(0)" onclick="loadBPCCreate()" data-target="#BPCCreate" data-toggle="modal" class="btn btn-info">New Budget Category</a>
+            @*@Html.ActionLink("New Budget Category", "_Create", "BudgetPlanCategories", null, new { @class = "btn btn-info" })*@
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link btn active" id="active-tab" data-toggle="tab" href="#active"
+                   role="tab" aria-controls="active-tab-pane" aria-expanded="true">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="budget-categories-tab" data-toggle="tab" href="#budgetCategories"
+                   role="tab" aria-controls="budget-categories-tab-pane" aria-expanded="true">Household Budget Categories</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- ACTIVE TAB -->
+            <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="basic-info-tab">
+                <table id="active-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(bp => bp.Id > 0).Name)</th>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(bp => bp.Id > 0).Category.Category)</th>
+                            <td>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(bp => bp.Id > 0).Variance)</td>
+                            <td>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(bp => bp.Id > 0).AmountBudgeted)</td>
+                            <td>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(bp => bp.Id > 0).AmountActual)</td>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BudgetPlans) {
+                            <tr>
+                                <td><a href="/BudgetPlans/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                @if (item.Variance < 0) {
+                                    <td><span style="color:red">@Html.DisplayFor(modelItem => item.Variance)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Variance)</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.AmountBudgeted)</td>
+                                <td>@Html.DisplayFor(modelItem => item.AmountActual)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BUDGET CATEGORIES TAB -->
+            <div class="tab-pane fade show" id="budgetCategories" role="tabpanel" aria-labelledby="budget-categories-tab">
+                <table id="budget-categories-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlanCategories.FirstOrDefault(bc => bc.Id > 0).Category)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BudgetPlanCategories) {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadBPCEdit(@item.Id)" data-target="#BPCEdit" data-toggle="modal">Edit</a> |
+                                    <a href="#" data-toggle="modal" data-target="#delBPCModal_@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                            <!-- DELETE BUDGET PLAN CATEGORY MODAL -->
+                            <div class="modal fade" id="delBPCModal_@item.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Budget Category Deletion</h5>
+                                            <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 style="text-align:center; color:firebrick">@item.Category</h2>
+                                            <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            @Html.ActionLink("Delete Category", "DeleteConfirmed", "BudgetPlanCategories", new { id = item.Id }, new { @class = "btn btn-danger text-center" })
+                                            <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EDIT BUDGET PLAN CATEGORY MODAL - loads a Partial View -->
+    <div class="modal fade" id="BPCEdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Budget Category</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="BPCLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATE BUDGET PLAN CATEGORY MODAL - loads a Partial View -->
+    <div class="modal fade" id="BPCCreate" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Budget Category</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="BPCCreateLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- / CONTENT -->
+    @section scripts{
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+        <script>$("#active-table").DataTable({ "order": [[2, 'asc']] });</script>
+        <script>$("#budget-categories-table").DataTable({ "order": [[0, 'asc']] });</script>
+        <script>
+            function loadBPCEdit(id) {
+                $('#BPCLoad').load('/BudgetPlanCategories/_Edit/' + id);
+            }
+        </script>
+
+        <script>
+            function loadBPCCreate() {
+                $('#BPCCreateLoad').load('/BudgetPlanCategories/_Create/');
+            }
+        </script>
+    </div>
+
+
+    }
+    </div>

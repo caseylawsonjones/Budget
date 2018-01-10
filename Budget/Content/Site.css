@@ -1,4 +1,10 @@
-﻿body {
+﻿/*
+    Blue Logo color -  #039be5
+    Almost identical - #2196f3, #0c83e2, #, 
+
+    .nav-link:hover>i{color:rgba(0,0,0,.54)} (dark grey)
+*/ 
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -22,3 +28,137 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.details_logo{
+    max-height:7vh;
+    max-width:7vh;
+}
+.user-btm-box {
+    padding: 40px 0 10px;
+    clear: both;
+    overflow: hidden
+}
+.color_black {
+    color:black
+}
+.profile_pane {
+    background-color: #ffffff;
+}
+.content-wrapper,
+body {
+    background-color: #b7a3cb;
+}
+#profile-tab {
+    background-color:transparent;
+}
+.noborder {
+    border-style:none!important;
+    border:none;
+    border-color:transparent;
+}
+#e-commerce-products #e-commerce-products-table .product-image {
+    width: 5.2rem;
+    height: 5.2rem;
+    border: 1px solid rgba(0,0,0,.12)
+}
+.img-7vh {
+    height: 7vh !important;
+    width: 7vh !important;
+}
+.img-8vh {
+    height: 8vh !important;
+    width: 8vh !important;
+}
+.img-10vh {
+    height:10vh!important;
+    width:10vh!important;
+}
+body.modal-open div.modal-backdrop {
+    z-index: 0;
+}
+.modal {
+    position: absolute;
+    top: 10px;
+    right: 100px;
+    bottom: 0;
+    left: 0;
+    z-index: 10040;
+    overflow: auto;
+    overflow-y: auto;
+}
+.modal-header {
+    color: white;
+    background-color: rgb(60, 66, 82);
+}
+.close span {
+    color:white!important;
+}
+.form-group {
+    margin-bottom:0.8em;
+}
+
+/* Styling for Chart Labels */
+ul.list-inline {
+    margin-left: 0;
+    text-align: center !important
+}
+
+    ul.list-inline li {
+        display: inline-block;
+        padding: 0 8px
+    }
+
+        ul.list-inline li h6 {
+            color: #8d9498
+        }
+
+.text-purple {
+    color:#911eb4;
+}
+.text-olive {
+    color:#808000;
+}
+.text-navy {
+    color:#000080;
+}
+.text-maroon {
+    color:#800000
+}
+.text-yellow {
+    color:#ffe119;
+}
+.chartExample {
+    background-image: url('Images/Chart Example.png');
+    height:387px;
+    background-repeat:no-repeat;
+}
+
+/*td a {
+    font-weight: 500;
+    border: none;
+    background-color: #2196F3;
+    color: #000;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    width: 50%;
+}*/

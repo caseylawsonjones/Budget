@@ -1,0 +1,174 @@
+﻿@model Budget.Models.BudgetPlan
+@using System.ComponentModel.DataAnnotations
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="budgetPlans" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="img-10vh" src="~/Content/Images/Icons/bank.png">
+            </div>
+            <div class="text-center">
+                <h2>@Model.Name</h2>
+                <span class="h4">@Model.Category.Category Budget</span>
+            </div>
+        </div>
+        <div class="">
+            <div class="row">
+                <div class="col-md-6 text-right"><h4>Budgeted:</h4></div>
+                <div class="col-md-6"><h4><span style="color:blue">@Html.DisplayFor(model => model.AmountBudgeted)</span></h4></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right"><h4>Spent:</h4></div>
+                <div class="col-md-6">
+                    <div class="h4" style="color:blue;">@Html.DisplayFor(model => model.AmountActual)</div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right"><h4>Variance:</h4></div>
+                <div class="col-md-6">
+                    @if (Model.Variance < 0) {
+                        <div class="h4" style="color:red;">@Html.DisplayFor(model => model.Variance)</div>
+                    }
+                    else {
+                        <div class="h4" style="color:green;">@Html.DisplayFor(model => model.Variance)</div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            @*@Html.ActionLink("Add Budget Item", "Create", "BudgetItems", new { id = Model.Id }, new { @class = "btn btn-success" })
+            <span> &nbsp;</span>*@
+            @Html.ActionLink("Edit Budget", "Edit", "BudgetPlans", new { id = Model.Id }, new { @class = "btn btn-danger" })
+        </div>
+
+        @*@Html.ActionLink("New Buget Item", "Create", "BudgetItems", null, new { @class = "btn btn-success" })*@
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link btn active" id="transactions-tab" data-toggle="tab" href="#transactions"
+                   role="tab" aria-controls="transactions-tab-pane">Transactions</a>
+            </li>
+            @*<li class="nav-item">
+                <a class="nav-link btn" id="budgetItems-tab" data-toggle="tab" href="#budgetItems"
+                   role="tab" aria-controls="budgetItems-tab-pane" aria-expanded="true">Budget Items</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="accounts-tab" data-toggle="tab" href="#accounts"
+                   role="tab" aria-controls="accounts-tab-pane">Accounts</a>
+            </li>*@
+        </ul>
+        <div class="tab-content">
+
+            <div class="tab-pane fade show active" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
+                <table id="tx-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Owner.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Account.Name)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).Institution)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).ReconciledDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Transactions.First(t => t.Id > 0).ConfirmationNumber)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Category.Transactions.Where(t => t.HouseholdId == Model.HouseholdId)) {
+                            <tr>
+                                <td><a href="/Transactions/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                @if (item.IsCredit == true) {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:red">&#40;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Account.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ConfirmationNumber)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadTxEdit(@item.Id)" data-target="#TxEdit" data-toggle="modal">Edit</a> |
+                                    <a href="#" data-toggle="modal" data-target="#VoidTxModal_@item.Id">Void</a>
+                                </td>
+                            </tr>
+                            <!-- VOID TRANSACTION MODAL -->
+                            <div class="modal fade" id="VoidTxModal_@item.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Voiding of Transaction</h5>
+                                            <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 style="text-align:center; color:firebrick">@item.Title</h2>
+                                            <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            @Html.ActionLink("Void Transaction", "VoidTransaction", "Transactions", new { id = item.Id }, new { @class = "btn btn-danger text-center" })
+                                            <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- / CONTENT -->
+
+    <!-- TRANSACTION EDIT MODAL - loads a Partial View -->
+    <div class="modal fade" id="TxEdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Transaction</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxEditLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts{
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+        <script>$("#tx-table").DataTable({ "order": [[1, 'desc']] });</script>
+        @*<script>$("#budgetItems-table").DataTable({ "order": [[3, 'desc']] });</script>*@
+        @*<script>$("#accounts-table").DataTable({ "order": [[0, 'desc']] });</script>*@
+        <script>
+            function loadTxEdit(id) {
+                $('#TxEditLoad').load('/Transactions/_Edit/' + id);
+            }
+        </script>
+
+    }
+</div>

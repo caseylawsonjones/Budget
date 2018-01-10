@@ -1,0 +1,47 @@
+﻿@model Budget.Models.Invitation
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Inviter.FullName invited you to join @Model.Household.Name on @Model.Created</h2>
+
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvitationMessage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvitationMessage)
+        </dd>
+
+    </dl>
+
+    @if (Model.HasAccepted == false && Model.HasDeclined == false && Model.InviteeEmail == User.Identity.GetUserName()) {
+        <div class="col-md-1">
+            @Html.ActionLink("Accept", "InvitationAccept", "Invitations", new { invitationId = Model.Id }, new { @class = "btn btn-success" })
+            @*<a href="/Invitations/InvitationAccept/@Model.Id" class="btn btn-success">Accept</a>*@
+        </div>
+        <div class="col-md-1">
+            @Html.ActionLink("Decline", "InvitationDecline", "Invitations", new { invitationId = Model.Id }, new { @class = "btn btn-danger" })
+            @*<a href="/Invitations/InvitationDecline/@Model.Id" class="btn btn-danger">Decline</a>*@
+        </div>
+        <div class="row"></div>
+    }
+    else {
+        if (Model.HasAccepted == true || Model.HasDeclined == true) {
+        <h3 style="color:red">A Response Has Already Been Given For This Notification.</h3>
+        }
+    }
+
+</div>
+<hr />
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

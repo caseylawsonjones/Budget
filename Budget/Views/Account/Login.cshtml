@@ -2,62 +2,112 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
+    Layout = null;
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Images/Icons/favicon.png">
+        <title>@ViewBag.Title - Financial Fusion</title>
+        <!-- STYLESHEETS -->
+        <style type="text/css">
+            [fuse-cloak],
+            .fuse-cloak {
+                display: none !important;
+            }
+        </style>
+        <!-- Icons.css -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/icons/fuse-icon-font/style.css">
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/icons/fuse-icon-font/style.css">
+        <!-- Animate.css -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/animate.css/animate.min.css">
+        <!-- PNotify -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.css">
+        <!-- Nvd3 - D3 Charts -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.css" />
+        <!-- Perfect Scrollbar -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+        <!-- Fuse Html -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.css" />
+        <!-- Main CSS -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/css/main.css">
+        <!-- jQuery UI -->
+        <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+        <!-- / STYLESHEETS -->
+        <!-- jQuery -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+        <!-- Mobile Detect -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/mobile-detect/mobile-detect.min.js"></script>
+        <!-- Perfect Scrollbar -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+        <!-- Popper.js -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/popper.js/index.js"></script>
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/bootstrap/bootstrap.min.js"></script>
+        <!-- Nvd3 - D3 Charts -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/d3/d3.min.js"></script>
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.js"></script>
+        <!-- Data tables -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+        <!-- PNotify -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.js"></script>
+        <!-- Fuse Html -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.js"></script>
+        <!-- Main JS -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/main.js"></script>
+        <!-- / JAVASCRIPT -->
+
+    </head>
+    <body>
+        <div id="login" class="p-8">
+            <div class="form-wrapper md-elevation-8 p-8">
+                <div class="">
+                    <span><img src="~/Content/Images/Icons/tools.png" /></span>
+                </div>
+                <div class="title mt-4 mb-8">Log in to your account</div>
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group mb-4">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        <label for="loginFormInputEmail">Email address</label>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+                    <div class="form-group mb-4">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        <label for="loginFormInputPassword">Password</label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+                    <div class="remember-forgot-password row no-gutters align-items-center justify-content-between pt-4">
+                        <div class="form-group form-check remember-me mb-4">
+                            <label class="form-check-label">
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                                <span class="checkbox-icon"></span>
+                                <span class="form-check-description">Remember Me</span>
+                                @*@Html.LabelFor(m => m.RememberMe)*@
+                            </label>
                         </div>
+                        @Html.ActionLink("Forgot Password?", "ForgotPassword", null, new { @class = "forgot-password text-secondary mb-4", style = "padding-top:15px;" })
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+                    <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto" aria-label="LOG IN">LOG IN</button>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                }
+                @using (Html.BeginForm("Login", "Account", new { Email = "DemoMember@coderfoundry.com", Password = "Budgeter8**" })) {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto" aria-label="Demo Member">Demo Member</button>
+                }
+                <div class="register d-flex flex-column flex-sm-row align-items-center justify-content-center mt-8 mb-6 mx-auto">
+                    <span class="text mr-sm-2">Don't have an account?</span>
+                    @Html.ActionLink("Create an Account", "Register", null, new { @class = "link text-secondary" })
+                </div>
+            </div>
+        </div>
+    </body>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</html>

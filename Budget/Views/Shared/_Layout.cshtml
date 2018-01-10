@@ -1,44 +1,228 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using Budget.Models.Helpers;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Images/Icons/favicon.png">
+    <title>@ViewBag.Title - Financial Fusion</title>
+    <!-- STYLESHEETS -->
+    <style type="text/css">
+        [fuse-cloak],
+        .fuse-cloak {
+            display: none !important;
+        }
+    </style>
+    <!-- Icons.css -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/icons/fuse-icon-font/style.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/icons/fuse-icon-font/style.css">
+    <!-- Animate.css -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/animate.css/animate.min.css">
+    <!-- PNotify -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.css">
+    <!-- Nvd3 - D3 Charts -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.css" />
+    <!-- Perfect Scrollbar -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+    <!-- Fuse Html -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.css" />
+    <!-- Main CSS -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/css/main.css">
+    <!-- jQuery UI -->
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- / STYLESHEETS -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <!-- Mobile Detect -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/mobile-detect/mobile-detect.min.js"></script>
+    <!-- Perfect Scrollbar -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/popper.js/index.js"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/bootstrap/bootstrap.min.js"></script>
+    <!-- Nvd3 - D3 Charts -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/d3/d3.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.js"></script>
+    <!-- Data tables -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+    <!-- PNotify -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.js"></script>
+    <!-- Fuse Html -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.js"></script>
+    <!-- Main JS -->
+    <script type="text/javascript" src="~/Content/Template/Fuze/js/main.js"></script>
+    <!-- / JAVASCRIPT -->
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+    <div id="wrapper">
+        <aside id="aside" class="aside aside-left"
+                data-fuse-bar="aside" data-fuse-bar-media-step="md"
+                data-fuse-bar-position="left">
+            <div class="aside-content-wrapper">
+                <div class="aside-content bg-primary-500 text-auto">
+                    <div class="aside-toolbar">
+                        <div class="logo">
+                            <div class=""><img src="~/Content/Images/Icons/tools.png" class="img-7vh" /></div>
+                            <span class="logo-text">Financial Fixer</span>
+                        </div>
+                        <button id="toggle-fold-aside-button" type="button" class="btn btn-icon d-none d-lg-block"
+                                data-fuse-aside-toggle-fold>
+                            <i class="icon icon-backburger"></i>
+                        </button>
+                    </div>
+                    <ul class="nav flex-column custom-scrollbar" id="sidenav" data-children=".nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Home/Index"
+                               data-page-url="">
+                                <i class="icon s-4 icon-home"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Households/Index"
+                               data-page-url="">
+                                <i class="icon s-4 icon-home"></i>
+                                <span>Household Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/BudgetPlans/Index"
+                               data-page-url="">
+                                <i class="icon s-4 icon-chart-areaspline"></i>
+                                <span>Budgets
+                                    @if (Enumerable.Any(ViewBag.overrunBudgets)) {
+                                        <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="# of Overrun Budgets">
+                                            @(Enumerable.Count(ViewBag.overrunBudgets))
+                                        </span>
+                                    }
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Accounts/Index"
+                                data-page-url="">
+                                <i class="icon s-4 icon-bank"></i>
+                                <span>Accounts
+                                    @if (Enumerable.Any(ViewBag.overdrawnAccounts)) {
+                                        <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="# of Overdrawn Accounts">
+                                            @(Enumerable.Count(ViewBag.overdrawnAccounts))
+                                        </span>
+                                    }
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Transactions/Index"
+                               data-page-url="">
+                                <i class="icon s-4 icon-sync"></i>
+                                <span>Transactions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Incomes/Index"
+                                data-page-url="">
+                                <i class="icon s-4 icon-download"></i>
+                                <span>Incomes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ripple " href="/Expenses/Index"
+                                data-page-url="">
+                                <i class="icon s-4 icon-upload"></i>
+                                <span>Expenses</span>
+                            </a>
+                        </li>
+                        @*<li class="nav-item">
+                            <a class="nav-link ripple " href="apps-todo.html"
+                               data-page-url="/apps-dashboards-server.html">
+                                <i class="icon s-4 icon-checkbox-marked"></i>
+                                <span>To-Do</span>
+                            </a>
+                        </li>*@
+
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        </aside>
+        <div class="content-wrapper">
+            <nav id="toolbar" class="fixed-top bg-white">
+                <div class="row no-gutters align-items-center flex-nowrap">
+                    <div class="col">
+                        <div class="row no-gutters align-items-center flex-nowrap">
+                            <button type="button" class="toggle-aside-button btn btn-icon d-block d-lg-none"
+                                    data-fuse-bar-toggle="aside">
+                                <i class="icon icon-menu"></i>
+                            </button>
+                            <div class="toolbar-separator d-block d-lg-none"></div>
+                            <div class="shortcuts-wrapper row no-gutters align-items-center px-0 px-sm-2">
+                                <div class="shortcuts row no-gutters align-items-center d-none d-md-flex">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row no-gutters align-items-center justify-content-end">
+                            <div class="user-menu-button dropdown">
+                                <div class="dropdown-toggle ripple row align-items-center no-gutters px-2 px-sm-4" role="button"
+                                        id="dropdownUserMenu"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="avatar-wrapper">
+                                        <img class="img-7vh" src="~/Content/Images/Icons/settings.png">
+                                        @*<i class="status text-green icon-checkbox-marked-circle s-4"></i>*@
+                                    </div>
+                                    <span class="username mx-3 d-none d-md-block">@User.GetFullName()</span>
+                                </div>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
+                                    <a class="dropdown-item" href="/Manage/Index">
+                                        <div class="row no-gutters align-items-center flex-nowrap">
+                                            <i class="icon-account"></i>
+                                            <span class="px-3">My Profile</span>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    @using (Html.BeginForm("LogOff", "Account", new { returnUrl = Request.Url }, FormMethod.Post, new { id = "logoutForm", })) {
+                                        @Html.AntiForgeryToken()
+                                        <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
+                                            <div class="row no-gutters align-items-center flex-nowrap">
+                                                <i class="icon-logout"></i>
+                                                <span class="px-3">Logout</span>
+                                            </div>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="content">
+                @*<div id="server-dashboard" class="page-layout simple full-width">*@
+                    <!-- CONTENT -->
+                    @RenderBody()
+                    <!-- / CONTENT -->
+                @*</div>*@
+                <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/server.js"></script>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

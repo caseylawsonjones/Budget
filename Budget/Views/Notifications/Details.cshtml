@@ -1,0 +1,72 @@
+﻿@model Budget.Models.Notification
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+<h4>@Model.Description</h4>
+<p>@Html.Raw(@Model.Body)</p>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Title)</dt>
+        <dd>@Html.DisplayFor(model => model.Title)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Owner.FirstName)</dt>
+        <dd>@Html.DisplayFor(model => model.Owner.FirstName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Category.Category)</dt>
+        <dd>@Html.DisplayFor(model => model.Category.Category)</dd>
+
+        @if (Model.AccountId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Account.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Account.Name)</dd>
+        }
+
+        @if (Model.BudgetPlanId != null) {
+            <dt>@Html.DisplayNameFor(model => model.BudgetPlan.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.BudgetPlan.Name)</dd>
+        }
+
+        @if (Model.ExpenseId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Expense.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Expense.Name)</dd>
+        }
+
+
+        @if (Model.IncomeId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Income.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Income.Name)</dd>
+        }
+
+        @if (Model.TransactionId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Transaction.Title)</dt>
+            <dd>@Html.DisplayFor(model => model.Transaction.Title)</dd>
+        }
+
+        <dt>@Html.DisplayNameFor(model => model.Created)</dt>
+        <dd>@Html.DisplayFor(model => model.Created)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.OriginalDeliveryDate)</dt>
+        <dd>@Html.DisplayFor(model => model.OriginalDeliveryDate)</dd>
+
+        @if (Model.OriginalDeliveryDate != Model.CurrentDeliveryDate) {
+            <dt>@Html.DisplayNameFor(model => model.CurrentDeliveryDate)</dt>
+            <dd>@Html.DisplayFor(model => model.CurrentDeliveryDate)</dd>
+        }
+
+        <dt>@Html.DisplayNameFor(model => model.DateAcknowledged)</dt>
+        <dd>@Html.DisplayFor(model => model.DateAcknowledged)</dd>
+
+
+    </dl>
+</div>
+<p>
+@Html.ActionLink("Back to List", "Index")
+</p>

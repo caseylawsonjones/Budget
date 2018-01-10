@@ -1,0 +1,330 @@
+﻿                    <div id="profile" class="page-layout simple tabbed">
+                        <!-- HEADER -->
+                        <div class="page-header light-fg d-flex flex-column justify-content-center justify-content-lg-end p-6">
+                            <div class="flex-column row flex-lg-row align-items-center align-items-lg-end no-gutters justify-content-between">
+                                <div class="user-info flex-column row flex-lg-row no-gutters align-items-center">
+                                    <div class="col-md-3">
+                                        <img class="profile-image avatar huge mr-6" src="~/Content/Images/Household Logos/HouseholdDefaultLogo.png">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="name h2 my-6">@Model.UserInfo.FullName</div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 text-center">
+                                                @if (Model.UserInfo.HouseholdId != null) {
+                                                    <p class="text-purple">Member<br />Since</p>
+                                                    <p>@Model.UserInfo.DateJoined</p><br />
+                                                }
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 text-center">
+                                                <a href="/Notifications/Index"><p class="text-blue">Unread<br />Notifications</p></a>
+                                                <p>@Model.UserInfo.Notifications.Where(n => n.IsAcknowledged == false).Count()</p>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 text-center">
+                                                <p class="text-danger">Transactions<br />To Date</p>
+                                                <p>@Model.UserInfo.Transactions.Count()</p>
+                                            </div>
+                                        </div>
+                                        <div class="actions row align-items-center no-gutters">
+                                            <h4>@Html.ActionLink("Create Household", "Create", "Households", null, new { @class = "btn btn-warning" })</h4>
+                                            <h4>@Html.ActionLink("Leave Household", "LeaveHousehold", "Households", null, new { @class = "btn btn-critical ml-2" })</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / HEADER -->
+                        <!-- CONTENT -->
+                        <div class="page-content">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link btn active" id="profile-tab" data-toggle="tab" href="#profile-tab-pane" role="tab" aria-controls="profile-tab-pane" aria-expanded="true">Profile</a>
+                                </li>
+                                <!--<li class="nav-item">
+                                    <a class="nav-link btn" id="about-tab" data-toggle="tab" href="#about-tab-pane" role="tab"
+                                       aria-controls="about-tab-pane">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn" id="photos-videos-tab" data-toggle="tab" href="#photos-videos-tab-pane"
+                                       role="tab"
+                                       aria-controls="photos-tab-pane">Photos & Videos</a>
+                                </li>-->
+                            </ul>
+                            <div class="tab-content">
+                                <!-- PROFILE TAB -->
+                                <div role="tabpanel" class="tab-pane fade show active" id="profile-tab-pane" aria-labelledby="profile-tab">
+                                    <div class="row">
+                                        <div class="timeline col-12 col-sm-7 col-xl-9">
+                                            <!-- Change Name Section-->
+                                            @if (!User.IsInRole("DemoAccount")) {
+                                            <div class="steamline">
+                                                <!-- widget-body col-md-9 -->
+                                                <div class="sl-item">
+                                                    <!--  class="tab-content" -->
+                                                    <strong>Change Name</strong>
+                                                    <div class="sl-right">
+                                                        <!--  class="tab-pane active" id="account-details" -->
+                                                        @using (Html.BeginForm("EditProfile", "Manage", FormMethod.Post)) {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                                                        @Html.HiddenFor(m => m.UserInfo.Id)
+                                                        @Html.HiddenFor(m => m.UserInfo.Email)
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="text-info">First name</label>
+                                                                @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control" })
+                                                                @*<input type="text" value="John" class="col-md-10 form-control" />*@
+                                                                <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+                                                                <div class="separator bottom"></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="text-info">Last name</label>
+                                                                @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control" })
+                                                                @*<input type="text" value="Doe" class="col-md-10 form-control" />*@
+                                                                <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Last name is mandatory"><i></i></span>
+                                                                <div class="separator bottom"></div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="form-group">
+                                                            <input type="submit" class="btn btn-icon btn-primary glyphicons circle_ok" value="Save" />
+                                                        </div>
+                                                        @*<div class="separator separator"></div>*@
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <!-- Reset Password Section -->
+                                            <div class="steamline">
+                                                <!--  class="tab-pane" id="account-settings" -->
+                                                <div class="sl-item">
+                                                    <strong>Change Password</strong>
+                                                    <div class="sl-right">
+                                                        @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <input type="text" id="inputUsername" class="form-control" value="@Model.UserInfo.UserName" disabled="disabled" />
+                                                                <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Username can't be changed"></span>
+                                                                <br />
+
+                                                                <label for="inputPasswordOld" class="text-info">Old password</label>
+                                                                @Html.PasswordFor(m => Model.OldPassword, new { @class = "form-control", id = "inputPasswordOld", value = "", placeholder = "Old Password" })
+                                                                <br />
+
+                                                                <label for="inputPasswordNew" class="text-info">New password</label>
+                                                                @Html.PasswordFor(m => Model.NewPassword, new { @class = "form-control", id = "inputPasswordNew", value = "", placeholder = "New Password" })
+                                                                <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Passwords must be at least 8 characters long and include at least on of each:  capital letter, lowercase letter, number and special character"></span>
+                                                                <br />
+
+                                                                <label for="inputPasswordNew2" class="text-info">Confirm new password</label>
+                                                                @Html.PasswordFor(m => Model.ConfirmPassword, new { @class = "form-control", id = "inputPasswordNew2", value = "", placeholder = "Confirm new password" })
+                                                                <br />
+                                                                <div class="form-group">
+                                                                    <input type="submit" value="Change password" class="btn btn-icon btn-primary glyphicons circle_ok" />
+                                                                    @*<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i></i>Save changes</button>*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+                                            else {
+                                            <h3 class="text-info">Demo Users Cannot Change Their Account Information</h3>
+                                            }
+                                        </div>
+                                        <div class="timeline-sidebar col-12 col-sm-5 col-xl-3">
+
+                                            <div class="profile-box latest-activity card">
+
+                                                <header class="row no-gutters align-items-center justify-content-between bg-secondary text-auto p-4">
+
+                                                    <div class="title h6">Latest Activity</div>
+
+                                                    <div class="more text-muted">See All</div>
+
+                                                </header>
+
+                                                <div class="content activities p-4">
+
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/alice.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Alice Freeman"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Alice Freeman</span>
+
+                                                                    <span class="message"> started following you.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">13 mins. ago</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/andrew.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Andrew Green"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Andrew Green</span>
+
+                                                                    <span class="message"> sent you a message.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 10,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/garry.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Garry Newman"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Garry Newman</span>
+
+                                                                    <span class="message"> shared a public post with your group.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 9,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/carl.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Carl Henderson"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Carl Henderson</span>
+
+                                                                    <span class="message"> wants to play Fallout Shelter with you.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 8,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/jane.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Jane Dean"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Jane Dean</span>
+
+                                                                    <span class="message"> started following you.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 7,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/james.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Juan Carpenter"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Juan Carpenter</span>
+
+                                                                    <span class="message"> sent you a message.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 6,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/joyce.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Judith Burton"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Judith Burton</span>
+
+                                                                    <span class="message"> shared a photo with you.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 5,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+
+                                                        <div class="activity row no-gutters py-4">
+
+                                                            <img src="../assets/images/avatars/vincent.jpg" class="col-auto avatar mr-4"
+                                                                 alt="Vincent Munoz"/>
+
+                                                            <div class="col">
+
+                                                                <div>
+
+                                                                    <span class="username md-accent-color">Vincent Munoz</span>
+
+                                                                    <span class="message"> shared a photo with you.</span>
+
+                                                                </div>
+
+                                                                <span class="time text-muted">June 4,2015</span>
+
+                                                            </div>
+                                                        </div>
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / CONTENT -->
+                    </div>

@@ -1,87 +1,164 @@
-﻿@model Budget.Models.IndexViewModel
+﻿@model Budget.Models.AccountManagementViewModel
 @{
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
+<div id="myprofile" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="profile-image avatar huge mr-6" src="~/Content/Images/Icons/settings 6.png">
+            </div>
+            <div class="h3">@Model.UserInfo.FullName</div>
+            <br />
+            @if (Model.UserInfo.HouseholdId == null) {
+                <div class="h4" style="color:yellow">You must join or create a household before you can use the features of the application.</div>
+            }
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
+            <li class="nav-item">
+                <a class="nav-link btn active" id="profile-tab" data-toggle="tab" href="#profile-tab-pane"
+                   role="tab" aria-controls="basic-info-tab-pane" aria-expanded="true">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="invitations-tab" data-toggle="tab" href="#invitations-tab-pane"
+                   role="tab" aria-controls="basic-info-tab-pane" aria-expanded="true">Invitations</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!-- PROFILE TAB -->
+            <div role="tabpanel" class="tab-pane fade show active" id="profile-tab-pane" aria-labelledby="profile-tab">
+                <div class="row">
+                    <div class=col-12 col-sm-7 col-xl-9">
+                        <!-- Change Name Section-->
+                        @if (!User.IsInRole("DemoAccount")) {
+                            <div class="steamline">
+                                <!-- widget-body col-md-9 -->
+                                <div class="sl-item">
+                                    <!--  class="tab-content" -->
+                                    <strong>Change Name</strong>
+                                    <div class="sl-right">
+                                        <!--  class="tab-pane active" id="account-details" -->
+                                        @using (Html.BeginForm("EditProfile", "Manage", FormMethod.Post)) {
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.UserInfo.Id)
+                                            @Html.HiddenFor(m => m.UserInfo.Email)
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-info">First name</label>
+                                                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control" })
+                                                    @*<input type="text" value="John" class="col-md-10 form-control" />*@
+                                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+                                                    <div class="separator bottom"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="text-info">Last name</label>
+                                                    @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control" })
+                                                    @*<input type="text" value="Doe" class="col-md-10 form-control" />*@
+                                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Last name is mandatory"><i></i></span>
+                                                    <div class="separator bottom"></div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-primary glyphicons circle_ok" value="Save" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <hr />
+                            <!-- Reset Password Section -->
+                            <div class="steamline">
+                                <!--  class="tab-pane" id="account-settings" -->
+                                <div class="sl-item">
+                                    <strong>Change Password</strong>
+                                    <div class="sl-right">
+                                        @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="inputUsername" class="text-info">User name</label>
+                                                    <input type="text" id="inputUsername" class="form-control" value="@Model.UserInfo.UserName" disabled="disabled" />
+                                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Username can't be changed"></span>
+                                                    <br />
+
+                                                    <label for="inputPasswordOld" class="text-info">Old password</label>
+                                                    @Html.PasswordFor(m => Model.OldPassword, new { @class = "form-control", id = "inputPasswordOld", value = "", placeholder = "Old Password" })
+                                                    <br />
+
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Change password" class="btn btn-primary glyphicons circle_ok" />
+                                                        @*<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i></i>Save changes</button>*@
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="inputPasswordNew" class="text-info">New password</label>
+                                                    @Html.PasswordFor(m => Model.NewPassword, new { @class = "form-control", id = "inputPasswordNew", value = "", placeholder = "New Password" })
+                                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Passwords must be at least 8 characters long and include at least on of each:  capital letter, lowercase letter, number and special character"></span>
+                                                    <br />
+
+                                                    <label for="inputPasswordNew2" class="text-info">Confirm new password</label>
+                                                    @Html.PasswordFor(m => Model.ConfirmPassword, new { @class = "form-control", id = "inputPasswordNew2", value = "", placeholder = "Confirm new password" })
+                                                    <br />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="col-md-offset-3 col-sm-offset-3 text-center">
+                                <span class="m-0">@Html.ActionLink("Leave Household", "LeaveHousehold", "Households", null, new { @class = "btn btn-success align-items-center" })</span>
+                                <span class="m-0">@Html.ActionLink("Create Household", "Create", "Households", null, new { @class = "btn btn-warning align-items-center" })</span>
+                            </div>
+                        }
+                        else {
+                            <h3 class="text-info">Demo Users Cannot Change Their Account Information</h3>
+                        }
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+            <!-- INVITATIONS TAB -->
+            <div role="tabpanel" class="tab-pane fade show" id="invitations-tab-pane" aria-labelledby="invitations-tab">
+                <table id="myTx-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Invitations.First(i => i.Id > 0).Household.Name)</th>
+                            <th>@Html.DisplayNameFor(model => model.Invitations.First(i => i.Id > 0).Inviter.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Invitations.First(i => i.Id > 0).Created)</th>
+                            <th>@Html.DisplayNameFor(model => model.Invitations.First(i => i.Id > 0).InvitationMessage)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Invitations) {
+                            <tr>
+                                <td><a href="/Invitations/Details/@item.Id">@Html.DisplayFor(modelItem => item.Household.Name)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Inviter.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                <td>@Html.DisplayFor(modelItem => item.InvitationMessage)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- / CONTENT -->
 </div>
+
+
+@section Scripts {
+}

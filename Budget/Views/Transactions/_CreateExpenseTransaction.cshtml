@@ -1,0 +1,80 @@
+﻿@model Budget.Models.Expense
+
+@*@{
+    ViewBag.Title = "View";
+    Layout = "null";
+}*@
+@section Styles{
+    <style>
+        .form-group {
+            padding-top: 1px !important;
+        }
+    </style>
+}
+
+@*@using (Ajax.BeginForm("CreateExpenseTransactionReceiver", "Transactions", new AjaxOptions { HttpMethod = "POST"})) {
+
+    @using (Ajax.BeginForm("CreateExpenseTransactionReceiver", "Transactions", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divEmp" })) {*@
+@using (Html.BeginForm("CreateExpenseTransactionReceiver", "Transactions", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <h3>The Estimated Amount for @Model.Name is @Model.EstimatedAmount.</h3>
+    <br />
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.EstimatedAmount, "Enter the Actual Amount here:", htmlAttributes: new { @class = "control-label col-md-4 text-right" })
+        <div class="col-md-8 col-md-offset-2">
+            <input type="number"  step="0.01" min="0" id="EstimatedAmount" name="EstimatedAmount" value="" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">  <!-- The Expense model does not have a Date property to pass, so I'm using its EndDate property to piggy-back the selecte date to the Action in the Controller -->
+        @Html.LabelFor(model => model.EndDate, "Date of Transaction:", htmlAttributes: new { @class = "control -label col-md-4 text-right" })
+        <div class="col-md-8 col-md-offset-2">
+            <input type="datetime" id="EndDate" name="EndDate" value="" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="genTx"type="submit" value="Generate Transaction" class="btn btn-default" />
+        </div>
+    </div>
+
+}
+
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script>
+        $(function () {
+            $("#EndDate").datepicker();
+        });
+    </script>
+    @*<script type="text/javascript">
+        function OnSuccess(response) {
+            $('#GenerateTx').modal('hide');    }
+        function OnFailure(response) {
+        }
+    </script>*@
+
+    @*<script>
+        $('#genTx').submit(function() {
+            var EstimatedAmount = $('#EstimatedAmount').val();
+            var EndDate = $('#EndDate').val();
+        $.ajax({
+        type: "POST",
+        url: '/Transactions/CreateExpenseTransactionReceiver/',
+        dataType: "html",
+        data: {
+            'EndDate': EndDate,
+            'EstimatedAmount': EstimatedAmount
+        },
+        success: function (result) {
+            $('#GenerateTx').modal('hide');
+        },
+        error: function (request, status, error) {
+        //Do Something on Failure
+        }
+        });
+        });
+    </script>*@

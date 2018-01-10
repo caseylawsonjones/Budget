@@ -1,31 +1,329 @@
-﻿@{
+﻿@model Budget.Models.ViewModels.HomeViewModel
+@{
     ViewBag.Title = "Home Page";
 }
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+}
+@section Styles{
+    <style>
+        .form-group {
+            padding-top: 1px !important;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+}
+
+
+
+
+<div id="project-dashboard" class="page-layout simple right-sidebar tabbed">
+    <div class="page-content-wrapper">
+        <!-- HEADER -->
+        <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+            <div class="row no-gutters align-items-center">
+                <div class="product-image mr-4">
+                    <img class="img-10vh" src="~/Content/Images/Icons/analytics 6.png">
+                </div>
+                <div class="h3">Household Dashboard</div>
+            </div>
+        </div>
+        <!-- / HEADER -->
+        <!-- CONTENT -->
+        <div class="page-content">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                @*<li class="nav-item">
+                    <a class="nav-link btn" id="home-tab" data-toggle="tab" href="#home-tab-pane" role="tab"
+                       aria-controls="home-tab-pane" aria-expanded="true"></a>
+                </li>*@
+                @*<li class="nav-item">
+                    <a class="nav-link btn" id="budget-summary-tab" data-toggle="tab" href="#budget-summary-tab-pane"
+                       role="tab" aria-controls="budget-summary-tab-pane">Budget Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" id="team-members-tab" data-toggle="tab" href="#team-members-tab-pane"
+                       role="tab" aria-controls="team-members-tab-pane">Team Members</a>
+                </li>*@
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                    @*<div class="container">*@
+                        <div class="row">
+
+                            <!-- ACCOUNTS/BUDGETS/TRANSACTIONS COLUMN-->
+                            <div class="col-sm-4 col-md-4 card">
+                                <!-- Accounts List -->
+                                <div class="card">
+                                    <table width="100%" class="m-2">
+                                        <h5 style="background-color:#911eb4; color:white; text-align:center;"><b>Accounts</b></h5>
+                                        <thead>
+                                            <tr>
+                                                <th width="40%">Account</th>
+                                                <th width="30%">@Html.DisplayNameFor(model => model.AccountsList.FirstOrDefault(a => a.Id > 0).Category.Category)</th>
+                                                <th width="30%">@Html.DisplayNameFor(model => model.AccountsList.FirstOrDefault(a => a.Id > 0).Balance)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.AccountsList) {
+                                                <tr>
+                                                    <td><a href="/Accounts/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Balance)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr />
+                                <!-- Overrun Budgets -->
+                                <div class="card">
+                                    <table width="100%" class="m-2">
+                                        <h5 style="background-color:#808000; color:white; text-align:center;">Overrun Budgets</h5>
+                                        <thead width="100%">
+                                            <tr width="100%">
+                                                <th width="25%">Budget</th>
+                                                <th width="25%">Category</th>
+                                                <th width="25%">Budgeted</th>
+                                                <th width="25%">Over by</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.BudgetPlans) {
+                                                <tr>
+                                                    <td><a href="/BudgetPlans/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.AmountBudgeted)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Variance)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr />
+                                <!-- Transactions > $100 -->
+                                <div class="card">
+                                    <table width="100%" class="m-2">
+                                        <h5 style="background-color:#000080; color:white; text-align:center;">Transactions Over $100</h5>
+                                        <thead>
+                                            <tr>
+                                                <th width="40%">@Html.DisplayNameFor(model => model.LargeTransactions.FirstOrDefault(a => a.Id > 0).Title)</th>
+                                                <th width="30%">@Html.DisplayNameFor(model => model.LargeTransactions.FirstOrDefault(a => a.Id > 0).Category.Category)</th>
+                                                <th width="30%">@Html.DisplayNameFor(model => model.LargeTransactions.FirstOrDefault(a => a.Id > 0).Amount)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.LargeTransactions) {
+                                                <tr>
+                                                    <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- GRAPH COLUMNS - KEPT TOGETHER IN ROWS TO ASSURE HORIZONTAL ALIGNMENT -->
+                            <!-- Expenditure per Budget and Transaction Category Pie Graphs -->
+                            <!-- Expenditures per Budget Category -->
+                            <div class="col-sm-4 col-md-4 widget card">
+                                @if (Model.ChartBudgetPlanCategories.Count() > 4) {
+                                    <div class="">
+                                        <h4 class="box-title text-center"><b>Five Highest Budget Categories</b></h4>
+                                        <div id="expBudgetCat" style="height: 387px;"></div>
+                                        <ul class="list-inline m-b-0 m-t-20">
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-purple"></i>@Model.ChartBudgetPlanCategories[0]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-olive"></i>@Model.ChartBudgetPlanCategories[1]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-navy"></i>@Model.ChartBudgetPlanCategories[2]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-maroon"></i>@Model.ChartBudgetPlanCategories[3]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-yellow"></i>@Model.ChartBudgetPlanCategories[4]</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                                else {
+                                <div class="h4 chartExample text-center"><br /><br /><br />Your household needs to have at least five Budgets Created to see this chart.</div>
+                                }
+                            </div>
+                            <!-- Expenditures per Transaction Category -->
+                            <div class="col-sm-4 col-md-4 widget card">
+                                @if (Model.ChartTransactionAmounts.Count() > 4) {
+                                    <div class="">
+                                        <h4 class="box-title text-center"><b>Five Highest Tx Categories</b></h4>
+                                        <div id="expTxCat" style="height: 387px;"></div>
+                                        <ul class="list-inline m-b-0 m-t-20">
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-purple"></i>@Model.ChartTransactionCategories[0]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-olive"></i>@Model.ChartTransactionCategories[1]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-navy"></i>@Model.ChartTransactionCategories[2]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-maroon"></i>@Model.ChartTransactionCategories[3]</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="text-black"><i class="fa fa-circle m-r-5 text-yellow"></i>@Model.ChartTransactionCategories[4]</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                                else {
+                                    <div class="h4 chartExample text-center"><br /><br /><br />Your household needs to have Transactions covering at least five categories to see this chart.</div>
+                                }
+                            </div>
+                            <!-- Expenditures per Budget Category -->
+                            @*<div class="col-sm-4 col-md-4 widget card">
+                                    <div class="">
+                                        <h4 class="box-title">Five Highest Spending Members</h4>
+                                        @if (Model.ChartMembers.Count() > 4) {
+                                            <div id="expMember" style="height: 387px;"></div>
+                                            <ul class="list-inline m-b-0 m-t-20">
+                                                <li>
+                                                    <h6 class="text-black"><i class="fa fa-circle m-r-5 text-purple"></i>@Model.ChartMembers[0]</h6>
+                                                </li>
+                                                <li>
+                                                    <h6 class="text-black"><i class="fa fa-circle m-r-5 text-olive"></i>@Model.ChartMembers[1]</h6>
+                                                </li>
+                                                <li>
+                                                    <h6 class="text-black"><i class="fa fa-circle m-r-5 text-navy"></i>@Model.ChartMembers[2]</h6>
+                                                </li>
+                                                <li>
+                                                    <h6 class="text-black"><i class="fa fa-circle m-r-5 text-maroon"></i>@Model.ChartMembers[3]</h6>
+                                                </li>
+                                                <li>
+                                                    <h6 class="text-black"><i class="fa fa-circle m-r-5 text-yellow"></i>@Model.ChartMembers[4]</h6>
+                                                </li>
+
+                                            </ul>
+                                        }
+                                    </div>
+                                </div>*@
+                        </div>
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+</div>
+    <!-- TRANSACTION DETAILS MODAL - loads a Partial View -->
+<div class="modal fade" id="TxDetails" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Transaction Details</h5>
+                <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="TxDetailsLoad" style="overflow-y: scroll">
+
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    @if (Model.ChartBudgetPlanCategoryAmounts.Count() > 4) {
+        <script>
+        new Morris.Donut({
+            element: 'expBudgetCat',
+            data: [{
+                label: "@Model.ChartBudgetPlanCategories[0]",
+                value: @Model.ChartBudgetPlanCategoryAmounts[0]
+            }, {
+                label: "@Model.ChartBudgetPlanCategories[1]",
+                value: @Model.ChartBudgetPlanCategoryAmounts[1]
+            }, {
+                label: "@Model.ChartBudgetPlanCategories[2]",
+                value: @Model.ChartBudgetPlanCategoryAmounts[2]
+            }, {
+                label: "@Model.ChartBudgetPlanCategories[3]",
+                value: @Model.ChartBudgetPlanCategoryAmounts[3]
+            }, {
+                label: "@Model.ChartBudgetPlanCategories[4]",
+                value: @Model.ChartBudgetPlanCategoryAmounts[4]
+            }],
+            resize: true,
+            colors: ['#911eb4', '#808000', '#000080', '#800000', '#ffe119']
+        });
+        </script>
+    }
+
+    @if (Model.ChartTransactionAmounts.Count() > 4) {
+        <script>
+        new Morris.Donut({
+            element: 'expTxCat',
+            data: [{
+                label: "@Model.ChartTransactionCategories[0]",
+                value: @Model.ChartTransactionAmounts[0]
+            }, {
+                label: "@Model.ChartTransactionCategories[1]",
+                value: @Model.ChartTransactionAmounts[1]
+            }, {
+                label: "@Model.ChartTransactionCategories[2]",
+                value: @Model.ChartTransactionAmounts[2]
+            }, {
+                label: "@Model.ChartTransactionCategories[3]",
+                value: @Model.ChartTransactionAmounts[3]
+            }, {
+                label: "@Model.ChartTransactionCategories[4]",
+                value: @Model.ChartTransactionAmounts[4]
+            }],
+            resize: true,
+            colors: ['#911eb4', '#808000', '#000080', '#800000', '#ffe119']
+        });
+        </script>
+    }
+
+    @if (Model.ChartMembers.Count() > 4) {
+        <script>
+        new Morris.Donut({
+            element: 'expMember',
+            data: [{
+                label: "@Model.ChartMembers[0]",
+                value: @Model.ChartMemberAmounts[0]
+            }, {
+                label: "@Model.ChartMembers[1]",
+                value: @Model.ChartMemberAmounts[1]
+            }, {
+                label: "@Model.ChartMembers[2]",
+                value: @Model.ChartMemberAmounts[2]
+            }, {
+                label: "@Model.ChartMembers[3]",
+                value: @Model.ChartMemberAmounts[3]
+            }, {
+                label: "@Model.ChartMembers[4]",
+                value: @Model.ChartMemberAmounts[4]
+            }],
+            resize: true,
+            colors: ['#911eb4', '#808000', '#000080', '#800000', '#ffe119']
+        });
+        </script>
+    }
+    <script>
+        function loadTxDetails(id) {
+            $('#TxDetailsLoad').load('/Transactions/_Details/' + id);
+        }
+    </script>
+
+
+
+}

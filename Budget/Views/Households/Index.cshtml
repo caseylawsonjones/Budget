@@ -1,0 +1,192 @@
+﻿@model Budget.Models.Household
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="households" class="page-layout simple right-sidebar tabbed">
+    <div class="page-content-wrapper">
+
+        <!-- HEADER -->
+        <div class="page-header bg-secondary text-auto d-flex flex-column justify-content-between px-6 pt-4 pb-0">
+            <div class="row no-gutters align-items-start justify-content-between flex-nowrap">
+                <div>
+                    <span class="h2">@Model.Name </span><span style="font-size:smaller; color:gray">(Founded: @Model.Created)</span>
+                    <br />
+                    <span class="h5">@Model.Description</span>
+                </div>
+                <button type="button" class="sidebar-toggle-button btn btn-icon d-block d-xl-none"
+                        data-fuse-bar-toggle="dashboard-project-sidebar" aria-label="Toggle sidebar">
+                    <i class="icon icon-menu"></i>
+                </button>
+            </div>
+            <div class="row no-gutters align-items-center project-selection">
+                @Html.ActionLink("Invite New Member", "Create", "Invitations", null, new { @class = "btn btn-success" })
+                <span class="">@Html.ActionLink("Edit", "Edit", "Households", new { id = Model.Id }, new { @class = "btn btn-info" })</span><br />
+                <span class="">@Html.ActionLink("Deactivate", "Deactivate", "Households", null, new { @class = "btn btn-danger" })</span>
+
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <!-- Content Menu -->
+        <div class="page-content">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                <li class="nav-item">
+                    <a class="nav-link btn active" id="transactions-tab" data-toggle="tab" href="#transactions-tab-pane" role="tab"
+                       aria-controls="transactions-tab-pane" aria-expanded="true">Transactions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" id="budgetplans-tab" data-toggle="tab" href="#budgetplans-tab-pane" role="tab"
+                       aria-controls="budgetplans-tab-pane" aria-expanded="true">Budgets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" id="accounts-tab" data-toggle="tab" href="#accounts-tab-pane" role="tab"
+                       aria-controls="accounts-tab-pane" aria-expanded="true">Accounts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" id="members-tab" data-toggle="tab" href="#members-tab-pane" role="tab"
+                       aria-controls="members-tab-pane" aria-expanded="true">Members</a>
+                </li>
+            </ul>
+            <!-- Content Tabs -->
+            <div class="tab-content">
+                <!-- TRANSACTIONS TAB -->
+                <div role="tabpanel" class="tab-pane fade show active" id="transactions-tab-pane" aria-labelledby="transactions-tab">
+                    <h3>Transactions</h3>
+                    <table  id="transactions-table" class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Account)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Category.Category)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Owner)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Description)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Institution)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Date)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).Amount)</th>
+                                <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(a => a.Id > 0).ReconciledDate)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Transactions.Where(t => t.IsVoided == false)) {
+                                <tr>
+                                    <td><a href="/Transactions/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Account.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                    @if(item.IsCredit == true){
+                                        <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                    }
+                                    else {
+                                    <td><span style="color:red">&#40;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                    }
+                                    <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- BUDGETPLANS TAB -->
+                <div role="tabpanel" class="tab-pane fade show" id="budgetplans-tab-pane" aria-labelledby="budgetplans-tab">
+                    <h3>Budgets</h3>
+                    <table  id="budgetplans-table" class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(a => a.Id > 0).Name)</th>
+                                <th>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(a => a.Id > 0).Category.Category)</th>
+                                <th>@Html.DisplayNameFor(model => model.BudgetPlans.FirstOrDefault(a => a.Id > 0).Description)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.BudgetPlans) {
+                                <tr>
+                                    <td><a href="/BudgetPlans/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ACCOUNTS TAB -->
+                <div role="tabpanel" class="tab-pane fade show" id="accounts-tab-pane" aria-labelledby="accounts-tab">
+                    <h3>Accounts</h3>
+                    <table  id="accounts-table" class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).Name)</th>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).Category.Category)</th>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).Description)</th>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).Opened)</th>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).Balance)</th>
+                                <th>@Html.DisplayNameFor(model => model.Accounts.FirstOrDefault(a => a.Id > 0).AccountNumber)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Accounts.Where(i => i.IsActive == true)) {
+                                <tr>
+                                    <td><a href="/Accounts/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Opened)</td>
+                                    @if (item.Balance < 0) {
+                                        <td><span style="color:red">@Html.DisplayFor(modelItem => item.Balance)</span></td>
+                                    }
+                                    else {
+                                        <td><span style="color:green">@Html.DisplayFor(modelItem => item.Balance)</span></td>
+                                    }
+                                    <td>@Html.DisplayFor(modelItem => item.AccountNumber)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MEMBERS TAB -->
+                <div role="tabpanel" class="tab-pane fade show" id="members-tab-pane" aria-labelledby="members-tab">
+                    <h3>Household Members</h3>
+                    <table id="members-table" class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Members.First(m => m.Id != null).FullName)</th>
+                                <th>@Html.DisplayNameFor(model => model.Members.First(m => m.Id != null).DateJoined)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Members != null) {
+                                foreach (var member in Model.Members) {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => member.FullName)</td>
+                                        <td>@Html.DisplayFor(modelItem => member.DateJoined)</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+    @section scripts{ 
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+        <script>$("#transactions-table").DataTable({ "order": [[6, 'desc']] });</script>
+        <script>$("#budgetplans-table").DataTable({ "order": [[0, 'desc']] });</script>
+        <script>$("#accounts-table").DataTable({ "order": [[0, 'desc']] });</script>
+        <script>$("#members-table").DataTable({ "order": [[0, 'desc']] });</script>
+    }
+
+</div>

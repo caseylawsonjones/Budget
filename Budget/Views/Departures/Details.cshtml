@@ -1,0 +1,51 @@
+﻿@model Budget.Models.Departure
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Departure</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Departer.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Departer.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Household.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Household.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartureDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartureDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

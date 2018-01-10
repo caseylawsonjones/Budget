@@ -1,0 +1,326 @@
+﻿@model IEnumerable<Budget.Models.Transaction>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="accounts" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="img-10vh" src="~/Content/Images/Icons/refresh 3.png">
+            </div>
+            <div class="h3">Transactions</div>
+        </div>
+        @Html.ActionLink("New Transaction", "Create", "Transactions", null, new { @class = "btn btn-success" })
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link btn active" id="basic-info-tab" data-toggle="tab" href="#myTx"
+                   role="tab" aria-controls="basic-info-tab-pane" aria-expanded="true">My Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn 
+                   " id="basic-info-tab" data-toggle="tab" href="#allTx"
+                   role="tab" aria-controls="basic-info-tab-pane" aria-expanded="true">All Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="product-images-tab" data-toggle="tab" href="#notReconciled"
+                   role="tab" aria-controls="product-images-tab-pane">Unreconciled Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="pricing-tab" data-toggle="tab" href="#voidedTx"
+                   role="tab" aria-controls="pricing-tab-pane">Voided Transactions</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="myTx" role="tabpanel" aria-labelledby="basic-info-tab">
+                <table id="myTx-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlanCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.Account)</th>
+                            <th>@Html.DisplayNameFor(model => model.Institution)</th>
+                            <th>@Html.DisplayNameFor(model => model.ReconciledDate)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Where(i => i.OwnerId == User.Identity.GetUserId() && i.IsVoided == false)) {
+                            <tr>
+                                <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                @if (item.IsCredit == true) {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:red">&#40;&#45;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.BudgetPlanCategory.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Account.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadTxEdit(@item.Id)" data-target="#TxEdit" data-toggle="modal">Edit</a> |
+                                    <a href="#" data-toggle="modal" data-target="#VoidTxModal_@item.Id">Void</a>
+                                </td>
+                            </tr>
+                            <!-- VOID TRANSACTION MODAL -->
+                            <div class="modal fade" id="VoidTxModal_@item.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Voiding of Transaction</h5>
+                                            <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 style="text-align:center; color:firebrick">@item.Title</h2>
+                                            <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            @Html.ActionLink("Void Transaction", "VoidTransaction", "Transactions", new { id = item.Id }, new { @class = "btn btn-danger text-center" })
+                                            <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="allTx" role="tabpanel" aria-labelledby="product-images-tab">
+                <table id="allTx-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlanCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.Owner.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Account)</th>
+                            <th>@Html.DisplayNameFor(model => model.Institution)</th>
+                            <th>@Html.DisplayNameFor(model => model.ReconciledDate)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Where(i => i.IsVoided == false)) {
+                            <tr>
+                                <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                @if (item.IsCredit == true) {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:red">&#40;&#45;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.BudgetPlanCategory.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Account.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadTxEdit(@item.Id)" data-target="#TxEdit" data-toggle="modal">Edit</a> |
+                                    <a href="#" data-toggle="modal" data-target="#VoidTxModal_@item.Id">Void</a>
+                                </td>
+                            </tr>
+                            <!-- VOID TRANSACTION MODAL -->
+                            <div class="modal fade" id="VoidTxModal_@item.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Account Closure</h5>
+                                            <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 style="text-align:center; color:firebrick">@item.Title</h2>
+                                            <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            @Html.ActionLink("Void Transaction", "VoidTransaction", "Transactions", new { id = item.Id }, new { @class = "btn btn-danger text-center" })
+                                            <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="notReconciled" role="tabpanel" aria-labelledby="product-images-tab">
+                <table id="notReconciled-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlanCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.Owner.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Account)</th>
+                            <th>@Html.DisplayNameFor(model => model.Institution)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Where(i => i.IsReconciled == false && i.IsVoided == false)) {
+                            <tr>
+                                <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                @if (item.IsCredit == true) {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:red">&#40;&#45;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.BudgetPlanCategory.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Account.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadTxRec(@item.Id)" data-target="#TxRec" data-toggle="modal">Reconcile</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="voidedTx" role="tabpanel" aria-labelledby="pricing-tab">
+                <table id="voidedTx-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.BudgetPlanCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.Owner.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Institution)</th>
+                            <th>@Html.DisplayNameFor(model => model.ReconciledDate)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Where(i => i.IsVoided == true)) {
+                            <tr>
+                                <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                @if (item.IsCredit == true) {
+                                    <td><span style="color:green">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                }
+                                else {
+                                    <td><span style="color:red">&#40;&#45;@Html.DisplayFor(modelItem => item.Amount)&#41;</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.BudgetPlanCategory.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSACTION DETAILS MODAL - loads a Partial View -->
+    <div class="modal fade" id="TxDetails" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transaction Details</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxDetailsLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSACTION EDIT MODAL - loads a Partial View -->
+    <div class="modal fade" id="TxEdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Transaction</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxEditLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECONCILE TRANSACTION MODAL - loads a Partial View -->
+    <div class="modal fade" id="TxRec" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reconcile Transaction</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxRecLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- / CONTENT -->
+    @section scripts{
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+        <script>$("#myTx-table").DataTable({ "order": [[1, 'desc']] });</script>
+        <script>$("#allTx-table").DataTable({ "order": [[1, 'desc']] });</script>
+        <script>$("#notReconciled-table").DataTable({ "order": [[1, 'desc']] });</script>
+        <script>$("#voidedTx-table").DataTable({ "order": [[1, 'desc']] });</script>
+        <script>
+            function loadTxDetails(id) {
+                $('#TxDetailsLoad').load('/Transactions/_Details/' + id);
+            }
+        </script>
+        <script>
+            function loadTxEdit(id) {
+                $('#TxEditLoad').load('/Transactions/_Edit/' + id);
+            }
+        </script>
+        <script>
+            function loadTxRec(id) {
+                $('#TxRecLoad').load('/Transactions/_ReconcileTransaction/' + id);
+            }
+        </script>
+
+        
+        }
+</div>

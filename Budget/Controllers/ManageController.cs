@@ -7,11 +7,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Budget.Models;
+using System.Data.Entity;
 
 namespace Budget.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    [RequireHttps]
+    public class ManageController : Universal
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -52,8 +54,8 @@ namespace Budget.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
-        {
+        public async Task<ActionResult> Index(ManageMessageId? message) {
+            ApplicationDbContext db = new ApplicationDbContext();
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -62,16 +64,32 @@ namespace Budget.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+            var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            AccountManagementViewModel model = new AccountManagementViewModel();
+            model.HasPassword = HasPassword();
+            model.PhoneNumber = await UserManager.GetPhoneNumberAsync(userId);
+            model.TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId);
+            model.Logins = await UserManager.GetLoginsAsync(userId);
+            model.BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId);
+            model.CurrentLogins = userLogins;
+            model.OtherLogins = otherLogins;
+            //model.HouseholdId = db.Users.Find(User.Identity.GetUserId()).HouseholdId;
+            model.UserInfo = db.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+            model.Invitations = db.Invitations.Where(i => i.InviteeEmail == model.UserInfo.Email).ToList();
+            //foreach (var tx in model.UserInfo.Transactions) {
+            //    model.Transactions.Add(tx);
+            //}
+            ViewBag.StatusMessage =
+                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null) {
+                return View("Error");
+            }
+            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(model);
         }
 
@@ -321,6 +339,32 @@ namespace Budget.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
+
+        // GET: /Manage/EditProfile
+        public ActionResult EditProfile() {
+            ApplicationDbContext db = new ApplicationDbContext();
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
+            var id = User.Identity.GetUserId();
+            ApplicationUser user = db.Users.First(u => u.Id == id);
+            return View(user);
+        }
+
+        //POST: /Manage/EditProfile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfile(AccountManagementViewModel model) {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
+            var user = UserManager.FindById(model.UserInfo.Id);
+            user.FirstName = model.UserInfo.FirstName;
+            user.LastName = model.UserInfo.LastName;
+            var updateResult = await UserManager.UpdateAsync(user);
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

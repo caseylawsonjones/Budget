@@ -5,6 +5,44 @@ using Microsoft.Owin.Security;
 
 namespace Budget.Models
 {
+    public class AccountManagementViewModel {
+        //public AccountManagementViewModel() {
+        //    UserRoles = new HashSet<string>();
+        //}
+        // FROM  IndexViewModel
+        public bool HasPassword { get; set; }
+        public IList<UserLoginInfo> Logins { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool TwoFactor { get; set; }
+        public bool BrowserRemembered { get; set; }
+        // ADDED
+        public int? HouseholdId { get; set; }
+        public ApplicationUser UserInfo { get; set; }
+        public List<Invitation> Invitations { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+
+        // FROM CHANGEPASSWORDVIEWMODEL
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        // FROM MANAGELOGINSVIEWMODEL
+        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<AuthenticationDescription> OtherLogins { get; set; }
+    }
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -81,6 +119,6 @@ namespace Budget.Models
     public class ConfigureTwoFactorViewModel
     {
         public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+        public virtual ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
 }

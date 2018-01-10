@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,13 +20,14 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44376</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,12 +49,80 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.4.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.4.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.4.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.4.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.4.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.4.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -103,25 +174,11 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
-      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -134,54 +191,6 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Facebook">
-      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Google">
-      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Twitter">
-      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
-      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.Agent.Intercept">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.DependencyCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.PerfCounterCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.WindowsServer">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.Web">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -190,41 +199,1107 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\BudgetItemsController.cs" />
+    <Compile Include="Controllers\BudgetPlanCategoriesController.cs" />
+    <Compile Include="Controllers\BudgetPlansController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HouseholdsController.cs" />
+    <Compile Include="Controllers\IncomesController.cs" />
+    <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AccountMonthlyHistoryItem.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BudgetPlan.cs" />
+    <Compile Include="Models\BudgetItem.cs" />
+    <Compile Include="Models\Categories\AccountCategory.cs" />
+    <Compile Include="Models\Categories\BudgetItemCategory.cs" />
+    <Compile Include="Models\Categories\BudgetPlanCategory.cs" />
+    <Compile Include="Models\Categories\CommentCategory.cs" />
+    <Compile Include="Models\Categories\ExpenseCategory.cs" />
+    <Compile Include="Models\Categories\FrequencyCategory.cs" />
+    <Compile Include="Models\Categories\IncomeCategory.cs" />
+    <Compile Include="Models\Categories\NotificationCategory.cs" />
+    <Compile Include="Models\Categories\ReminderDuration.cs" />
+    <Compile Include="Models\Categories\TransactionCategory.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Departure.cs" />
+    <Compile Include="Models\Expense.cs" />
+    <Compile Include="Models\Helpers\AuthorizeHouseholdRequired.cs" />
+    <Compile Include="Models\Helpers\CategoryHelper.cs" />
+    <Compile Include="Models\Helpers\LeaveHouseholdHelper.cs" />
+    <Compile Include="Models\Helpers\TransactionProcessor.cs" />
+    <Compile Include="Models\Helpers\EmailModel.cs" />
+    <Compile Include="Models\Helpers\Extensions.cs" />
+    <Compile Include="Models\Helpers\RefreshAuthenticationHelper.cs" />
+    <Compile Include="Models\Household.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Income.cs" />
+    <Compile Include="Models\Invitation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\Reconciliation.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Controllers\Universal.cs" />
+    <Compile Include="Models\ViewModels\BudgetPlanViewModel.cs" />
+    <Compile Include="Models\ViewModels\CloseAccountViewModel.cs" />
+    <Compile Include="Models\ViewModels\HomeViewModel.cs" />
+    <Compile Include="Models\ViewModels\HouseholdCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\InvitationsIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Content\Images\Chart Example.png" />
+    <Content Include="Content\Images\Household Logos\HouseholdDefaultLogo.png" />
+    <Content Include="Content\Images\Icons\analytics 6.png" />
+    <Content Include="Content\Images\Icons\analytics 8.png" />
+    <Content Include="Content\Images\Icons\announcement 7.png" />
+    <Content Include="Content\Images\Icons\bank 2.png" />
+    <Content Include="Content\Images\Icons\bank.png" />
+    <Content Include="Content\Images\Icons\calculator.png" />
+    <Content Include="Content\Images\Icons\check.png" />
+    <Content Include="Content\Images\Icons\dollar.png" />
+    <Content Include="Content\Images\Icons\download 2.png" />
+    <Content Include="Content\Images\Icons\favicon.png" />
+    <Content Include="Content\Images\Icons\files 2.png" />
+    <Content Include="Content\Images\Icons\message 2.png" />
+    <Content Include="Content\Images\Icons\outside.png" />
+    <Content Include="Content\Images\Icons\people 2.png" />
+    <Content Include="Content\Images\Icons\plus.png" />
+    <Content Include="Content\Images\Icons\refresh 3.png" />
+    <Content Include="Content\Images\Icons\settings 6.png" />
+    <Content Include="Content\Images\Icons\settings.png" />
+    <Content Include="Content\Images\Icons\tools.png" />
+    <Content Include="Content\Images\Icons\upload 2.png" />
+    <Content Include="Content\Images\pexels-photo-339973.jpg" />
+    <Content Include="Content\Template\Fuze\apps-dashboards-project.html" />
+    <Content Include="Content\Template\Fuze\apps-dashboards-server.html" />
+    <Content Include="Content\Template\Fuze\apps-e-commerce-products.html" />
+    <Content Include="Content\Template\Fuze\index.html" />
+    <Content Include="Content\Template\Fuze\css\main.css" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\demo-files\demo.css" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\demo-files\demo.js" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\demo.html" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\fonts\fuse-iconfont.svg" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\Read Me.txt" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\style.css" />
+    <Content Include="Content\Template\Fuze\images\avatars\1.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\2.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\3.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\4.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\5.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Abbott.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\alice.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\andrew.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Arnold.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Barrera.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Blair.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Boyle.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\carl.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Christy.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Copeland.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\danielle.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Estes.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\garry.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Harper.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Helen.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Henderson.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\james.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\jane.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Josefina.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\joyce.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\katherine.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Katina.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Lily.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Mai.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Nancy.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Nora.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Odessa.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\profile.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Reyna.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Shauna.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Shepard.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Tillman.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Trevino.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Tyson.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\Velazquez.jpg" />
+    <Content Include="Content\Template\Fuze\images\avatars\vincent.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\april.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\august.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\december.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\february.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\header-bg.png" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\january.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\july.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\june.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\march.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\may.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\november.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\october.jpg" />
+    <Content Include="Content\Template\Fuze\images\backgrounds\september.jpg" />
+    <Content Include="Content\Template\Fuze\images\bootstrap-mini-logo.png" />
+    <Content Include="Content\Template\Fuze\images\ecommerce\product-image-placeholder.png" />
+    <Content Include="Content\Template\Fuze\images\etc\air-balloons.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\alice-cooper-poison.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\avenue.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\cactus.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\early-sunrise.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\fallout.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\flowers-thumb.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\mountain-lake.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\mountain-sunset.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\road-trip.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\sample-file-preview.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\snow-thumb.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\snow.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\sunrise-thumb.jpg" />
+    <Content Include="Content\Template\Fuze\images\etc\tropical-beach.jpg" />
+    <Content Include="Content\Template\Fuze\images\flags\es.png" />
+    <Content Include="Content\Template\Fuze\images\flags\tr.png" />
+    <Content Include="Content\Template\Fuze\images\flags\us.png" />
+    <Content Include="Content\Template\Fuze\images\fuse-mini-logo.png" />
+    <Content Include="Content\Template\Fuze\images\logos\android.png" />
+    <Content Include="Content\Template\Fuze\images\logos\angular-material.png" />
+    <Content Include="Content\Template\Fuze\images\logos\angular.png" />
+    <Content Include="Content\Template\Fuze\images\logos\browsersync.png" />
+    <Content Include="Content\Template\Fuze\images\logos\fallout.png" />
+    <Content Include="Content\Template\Fuze\images\logos\google.png" />
+    <Content Include="Content\Template\Fuze\images\logos\gulp.png" />
+    <Content Include="Content\Template\Fuze\images\logos\jasmine.png" />
+    <Content Include="Content\Template\Fuze\images\logos\karma.png" />
+    <Content Include="Content\Template\Fuze\images\logos\node-sass.png" />
+    <Content Include="Content\Template\Fuze\images\logos\protractor.png" />
+    <Content Include="Content\Template\Fuze\images\logos\yeoman.png" />
+    <Content Include="Content\Template\Fuze\images\patterns\drop-grey.png" />
+    <Content Include="Content\Template\Fuze\images\patterns\drop.png" />
+    <Content Include="Content\Template\Fuze\images\patterns\rain-grey.png" />
+    <Content Include="Content\Template\Fuze\images\patterns\rain.png" />
+    <Content Include="Content\Template\Fuze\images\placeholder.png" />
+    <Content Include="Content\Template\Fuze\js\apps\calendar\calendar.js" />
+    <Content Include="Content\Template\Fuze\js\apps\chat\chat.js" />
+    <Content Include="Content\Template\Fuze\js\apps\dashboard\project.js" />
+    <Content Include="Content\Template\Fuze\js\apps\dashboard\server.js" />
+    <Content Include="Content\Template\Fuze\js\apps\e-commerce\orders\orders.js" />
+    <Content Include="Content\Template\Fuze\js\apps\e-commerce\products\products.js" />
+    <Content Include="Content\Template\Fuze\js\apps\e-commerce\product\product.js" />
+    <Content Include="Content\Template\Fuze\js\components\charts\nvd3.js" />
+    <Content Include="Content\Template\Fuze\js\main.js" />
+    <Content Include="Content\Template\Fuze\pages-auth-forgot-password.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-lock-screen.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-login-v2.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-login.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-register-v2.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-register.html" />
+    <Content Include="Content\Template\Fuze\pages-auth-reset-password.html" />
+    <Content Include="Content\Template\Fuze\pages-coming-soon.html" />
+    <Content Include="Content\Template\Fuze\pages-errors-404.html" />
+    <Content Include="Content\Template\Fuze\pages-errors-500.html" />
+    <Content Include="Content\Template\Fuze\pages-maintenance.html" />
+    <Content Include="Content\Template\Fuze\pages-profile.html" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\animate.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\animate.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\gulpfile.js" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\bounce.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\flash.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\headShake.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\jello.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\pulse.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\rubberBand.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\shake.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\swing.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\tada.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\attention_seekers\wobble.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_entrances\bounceIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_entrances\bounceInDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_entrances\bounceInLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_entrances\bounceInRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_entrances\bounceInUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_exits\bounceOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_exits\bounceOutDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_exits\bounceOutLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_exits\bounceOutRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\bouncing_exits\bounceOutUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInDownBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInLeftBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInRightBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_entrances\fadeInUpBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutDownBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutLeftBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutRightBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\fading_exits\fadeOutUpBig.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\flippers\flip.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\flippers\flipInX.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\flippers\flipInY.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\flippers\flipOutX.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\flippers\flipOutY.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\lightspeed\lightSpeedIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\lightspeed\lightSpeedOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_entrances\rotateIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_entrances\rotateInDownLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_entrances\rotateInDownRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_entrances\rotateInUpLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_entrances\rotateInUpRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_exits\rotateOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_exits\rotateOutDownLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_exits\rotateOutDownRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_exits\rotateOutUpLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\rotating_exits\rotateOutUpRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_entrances\slideInDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_entrances\slideInLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_entrances\slideInRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_entrances\slideInUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_exits\slideOutDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_exits\slideOutLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_exits\slideOutRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\sliding_exits\slideOutUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\specials\hinge.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\specials\rollIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\specials\rollOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_entrances\zoomIn.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_entrances\zoomInDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_entrances\zoomInLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_entrances\zoomInRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_entrances\zoomInUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_exits\zoomOut.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_exits\zoomOutDown.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_exits\zoomOutLeft.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_exits\zoomOutRight.css" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\source\zooming_exits\zoomOutUp.css" />
+    <Content Include="Content\Template\Fuze\vendor\bootstrap\bootstrap.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\d3\d3.js" />
+    <Content Include="Content\Template\Fuze\vendor\d3\d3.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\api\responsive.index%28%29.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\api\responsive.rebuild%28%29.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\api\responsive.recalc%28%29.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\event\responsive-display.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\event\responsive-resize.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\columns.responsivePriority.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.breakpoints.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.details.display.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.details.renderer.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.details.target.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.details.type.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.details.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.orthogonal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\docs\option\responsive.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\column-control.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\custom-renderer.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\disable-child-rows.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\right-column.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\child-rows\whole-row-control.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\auto.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\classes.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\colreorder.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\column-visibility.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\columnPriority.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\fixedHeader.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\column-control\init-classes.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\bootstrap-modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\bootstrap4-modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\foundation-modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\immediateShow.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\jqueryui-modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\display-types\semanticui-modal.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\ajax.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\className.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\default.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\new.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\initialisation\option.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\bootstrap.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\bootstrap4.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\compact.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\foundation.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\index.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\jqueryui.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\scrolling.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\examples\styling\semanticui.xml" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\Issue_template.txt" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\dataTables.responsive.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\responsive.bootstrap.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\responsive.bootstrap4.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\responsive.foundation.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\responsive.jqueryui.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\js\responsive.semanticui.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\License.txt" />
+    <Content Include="Content\Template\Fuze\vendor\datatables.net\js\jquery.dataTables.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables.net\js\jquery.dataTables.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables.net\License.txt" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\license.txt" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.bootstrap.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.foundation.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.foundation.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.jqueryui.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.material.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.material.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.semanticui.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.uikit.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\dataTables.uikit.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\jquery.dataTables.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\jquery.dataTables.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\favicon.ico" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\sort_asc.png" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\sort_both.png" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\sort_desc.png" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.bootstrap.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.bootstrap4.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.foundation.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.foundation.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.jqueryui.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.jqueryui.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.material.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.material.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.semanticui.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.semanticui.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.uikit.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\dataTables.uikit.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\jquery.dataTables.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\js\jquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.css" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.print.css" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\fullcalendar.print.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\gcal.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\gcal.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale-all.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\af.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-dz.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-kw.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-ly.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-ma.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-sa.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar-tn.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ar.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\bg.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\cs.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\da.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\de-at.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\de-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\de.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\el.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\en-au.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\en-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\en-gb.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\en-ie.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\en-nz.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\es-do.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\es.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\et.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\eu.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\fa.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\fi.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\fr-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\fr-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\fr.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\gl.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\he.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\hi.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\hr.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\hu.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\id.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\is.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\it.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ja.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\kk.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ko.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\lb.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\lt.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\lv.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\mk.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ms-my.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ms.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\nb.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\nl-be.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\nl.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\nn.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\pl.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\pt-br.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\pt.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ro.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\ru.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\sk.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\sl.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\sr-cyrl.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\sr.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\sv.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\th.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\tr.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\uk.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\vi.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\zh-cn.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\dist\locale\zh-tw.js" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\LICENSE.txt" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\fuse-html.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\fuse-html.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-aside\fuse-aside.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-bar\fuse-bar.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-defaults.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-match-media\fuse-match-media.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-md-input\fuse-md-input.js" />
+    <Content Include="Content\Template\Fuze\vendor\fuse-html\src\fuse-ripple\fuse-ripple.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\AUTHORS.txt" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\core.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.slim.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.slim.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\external\sizzle\dist\sizzle.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\external\sizzle\dist\sizzle.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\external\sizzle\LICENSE.txt" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\LICENSE.txt" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\jsonp.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\load.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\parseXML.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\script.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\var\location.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\var\nonce.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\var\rquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\ajax\xhr.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes\attr.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes\classes.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes\prop.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\attributes\val.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\callbacks.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\access.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\DOMEval.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\init.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\nodeName.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\parseHTML.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\ready-no-deferred.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\ready.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\readyException.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\stripAndCollapse.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\core\var\rsingleTag.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\addGetHookIf.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\adjustCSS.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\curCSS.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\hiddenVisibleSelectors.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\showHide.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\cssExpand.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\getStyles.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\isHiddenWithinTree.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\rmargin.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\rnumnonpx.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\css\var\swap.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\data.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\data\Data.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\data\var\acceptData.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\data\var\dataPriv.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\data\var\dataUser.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\deferred.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\deferred\exceptionHook.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\deprecated.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\dimensions.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\effects.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\effects\animatedSelector.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\effects\Tween.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event\ajax.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event\alias.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event\focusin.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\event\trigger.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\exports\amd.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\exports\global.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\jquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\buildFragment.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\getAll.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\setGlobalEval.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\var\rcheckableType.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\var\rscriptType.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\var\rtagName.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\manipulation\wrapMap.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\offset.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\queue.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\queue\delay.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\selector-native.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\selector-sizzle.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\selector.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\serialize.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\traversing.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\traversing\findFilter.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\traversing\var\dir.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\traversing\var\rneedsContext.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\traversing\var\siblings.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\arr.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\class2type.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\concat.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\document.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\documentElement.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\fnToString.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\getProto.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\hasOwn.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\indexOf.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\ObjectFunctionString.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\pnum.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\push.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\rcssNum.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\rnothtmlwhite.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\slice.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\support.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\var\toString.js" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\src\wrap.js" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\mobile-detect-modernizr.js" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\mobile-detect.js" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\mobile-detect.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\af.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-dz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-kw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-ly.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-ma.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-sa.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar-tn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ar.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\az.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\be.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\bg.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\bn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\bo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\br.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\bs.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\cs.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\cv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\cy.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\da.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\de-at.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\de-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\de.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\dv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\el.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\en-au.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\en-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\en-gb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\en-ie.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\en-nz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\eo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\es-do.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\es.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\et.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\eu.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fa.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fr-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fr-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\fy.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\gd.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\gl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\gom-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\he.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\hi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\hr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\hu.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\hy-am.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\id.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\is.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\it.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ja.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\jv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ka.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\kk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\km.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\kn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ko.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ky.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\lb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\lo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\lt.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\lv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\me.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\mi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\mk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ml.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\mr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ms-my.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ms.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\my.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\nb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ne.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\nl-be.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\nl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\nn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\pa-in.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\pl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\pt-br.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\pt.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ro.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ru.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sd.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\se.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\si.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sq.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sr-cyrl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ss.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\sw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ta.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\te.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tet.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\th.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tl-ph.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tlh.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tzl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tzm-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\tzm.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\uk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\ur.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\uz-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\uz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\vi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\x-pseudo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\yo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\zh-cn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\zh-hk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\locale\zh-tw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\locales.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\locales.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\moment-with-locales.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\moment-with-locales.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\moment.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\min\tests.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\moment.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\check-overflow.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\date-from-array.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-anything.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-array.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-object.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-string-and-array.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-string-and-format.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\from-string.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\local.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\parsing-flags.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\utc.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\create\valid.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\abs.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\add-subtract.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\as.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\bubble.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\constructor.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\create.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\duration.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\get.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\humanize.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\iso-string.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\prototype.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\duration\valid.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\format\format.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\base-config.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\calendar.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\constructor.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\en.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\formats.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\invalid.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\lists.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\locale.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\locales.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\ordinal.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\pre-post-format.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\prototype.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\relative.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\locale\set.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\add-subtract.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\calendar.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\clone.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\compare.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\constructor.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\creation-data.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\diff.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\format.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\from.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\get-set.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\locale.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\min-max.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\moment.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\now.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\prototype.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\start-end-of.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\to-type.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\to.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\moment\valid.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\parse\regex.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\parse\token.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\aliases.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\constants.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\day-of-month.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\day-of-week.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\day-of-year.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\hour.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\millisecond.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\minute.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\month.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\offset.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\priorities.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\quarter.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\second.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\timestamp.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\timezone.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\units.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\week-calendar-utils.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\week-year.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\week.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\units\year.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\abs-ceil.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\abs-floor.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\abs-round.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\compare-arrays.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\defaults.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\deprecate.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\extend.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\has-own-prop.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\hooks.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\index-of.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-array.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-date.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-function.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-number.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-object-empty.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-object.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\is-undefined.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\keys.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\map.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\some.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\to-int.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\lib\utils\zero-fill.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\af.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-dz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-kw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-ly.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-ma.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-sa.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar-tn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ar.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\az.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\be.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\bg.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\bn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\bo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\br.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\bs.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\cs.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\cv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\cy.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\da.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\de-at.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\de-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\de.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\dv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\el.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\en-au.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\en-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\en-gb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\en-ie.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\en-nz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\eo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\es-do.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\es.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\et.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\eu.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fa.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fr-ca.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fr-ch.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\fy.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\gd.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\gl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\gom-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\he.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\hi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\hr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\hu.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\hy-am.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\id.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\is.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\it.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ja.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\jv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ka.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\kk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\km.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\kn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ko.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ky.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\lb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\lo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\lt.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\lv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\me.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\mi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\mk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ml.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\mr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ms-my.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ms.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\my.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\nb.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ne.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\nl-be.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\nl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\nn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\pa-in.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\pl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\pt-br.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\pt.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ro.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ru.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sd.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\se.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\si.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sq.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sr-cyrl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ss.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sv.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\sw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ta.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\te.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tet.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\th.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tl-ph.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tlh.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tr.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tzl.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tzm-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\tzm.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\uk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\ur.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\uz-latn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\uz.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\vi.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\x-pseudo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\yo.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\zh-cn.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\zh-hk.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\locale\zh-tw.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\src\moment.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\templates\default.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\templates\locale-header.js" />
+    <Content Include="Content\Template\Fuze\vendor\moment\templates\test-header.js" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.css" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.js" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\meteor\export.js" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\package.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\css\perfect-scrollbar.css" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\css\perfect-scrollbar.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\js\perfect-scrollbar.jquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\js\perfect-scrollbar.jquery.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\js\perfect-scrollbar.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\js\perfect-scrollbar.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\adaptor\global.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\adaptor\jquery.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\lib\class.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\lib\dom.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\lib\event-manager.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\lib\guid.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\lib\helper.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\main.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\default-setting.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\destroy.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\click-rail.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\drag-scrollbar.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\keyboard.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\mouse-wheel.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\native-scroll.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\selection.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\handler\touch.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\initialize.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\instances.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\update-geometry.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\update-scroll.js" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\src\js\plugin\update.js" />
+    <Content Include="Content\Template\Fuze\vendor\pnotify\pnotify.custom.min.css" />
+    <Content Include="Content\Template\Fuze\vendor\pnotify\pnotify.custom.min.js" />
+    <Content Include="Content\Template\Fuze\vendor\popper.js\index.js" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\fonts\fuse-iconfont.ttf" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\fonts\fuse-iconfont.woff" />
+    <Content Include="Content\Template\Fuze\icons\fuse-icon-font\selection.json" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\animate-config.json" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\LICENSE" />
+    <Content Include="Content\Template\Fuze\vendor\animate.css\package.json" />
+    <Content Include="Content\Template\Fuze\vendor\d3\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\d3\LICENSE" />
+    <Content Include="Content\Template\Fuze\vendor\d3\README.md" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\datatables-responsive\Readme.md" />
+    <Content Include="Content\Template\Fuze\vendor\datatables.net\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\datatables.net\Readme.md" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\Contributing.md" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\ISSUE_TEMPLATE.md" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\media\images\Sorting icons.psd" />
+    <Content Include="Content\Template\Fuze\vendor\datatables\Readme.md" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\CHANGELOG.md" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\CONTRIBUTING.md" />
+    <Content Include="Content\Template\Fuze\vendor\fullcalendar\README.md" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.min.map" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\dist\jquery.slim.min.map" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\external\sizzle\dist\sizzle.min.map" />
+    <Content Include="Content\Template\Fuze\vendor\jquery\README.md" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\CHANGELOG" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\LICENSE" />
+    <Content Include="Content\Template\Fuze\vendor\mobile-detect\README.md" />
+    <Content Include="Content\Template\Fuze\vendor\moment\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\moment\CHANGELOG.md" />
+    <Content Include="Content\Template\Fuze\vendor\moment\LICENSE" />
+    <Content Include="Content\Template\Fuze\vendor\moment\README.md" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.js.map" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.min.css.map" />
+    <Content Include="Content\Template\Fuze\vendor\nvd3\build\nv.d3.min.js.map" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\bower.json" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\LICENSE" />
+    <Content Include="Content\Template\Fuze\vendor\perfect-scrollbar\README.md" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="_BudgetNotes.txt" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Private.config" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -235,15 +1310,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\Backups\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Backups\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\Backups\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
@@ -258,28 +1331,115 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\Backups\EmailNotConfirmed.cshtml" />
+    <Content Include="Views\Households\Create.cshtml" />
+    <Content Include="Views\Households\Delete.cshtml" />
+    <Content Include="Views\Households\Details.cshtml" />
+    <Content Include="Views\Households\Edit.cshtml" />
+    <Content Include="Views\Households\Index.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
+    <Content Include="Views\Manage\Index - Copy.cshtml" />
+    <Content Include="Views\Transactions\Create.cshtml" />
+    <Content Include="Views\Transactions\_Details.cshtml" />
+    <Content Include="Views\Transactions\Index.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Delete.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Expenses\Create.cshtml" />
+    <Content Include="Views\Expenses\Delete.cshtml" />
+    <Content Include="Views\Expenses\Details.cshtml" />
+    <Content Include="Views\Expenses\Edit.cshtml" />
+    <Content Include="Views\Expenses\Index.cshtml" />
+    <Content Include="Views\Incomes\Create.cshtml" />
+    <Content Include="Views\Incomes\Delete.cshtml" />
+    <Content Include="Views\Incomes\Details.cshtml" />
+    <Content Include="Views\Incomes\_Edit.cshtml" />
+    <Content Include="Views\Incomes\Index.cshtml" />
+    <Content Include="Views\Invitations\Create.cshtml" />
+    <Content Include="Views\Invitations\Delete.cshtml" />
+    <Content Include="Views\Invitations\Details.cshtml" />
+    <Content Include="Views\Invitations\Edit.cshtml" />
+    <Content Include="Views\Invitations\Index.cshtml" />
+    <Content Include="Views\Notifications\Create.cshtml" />
+    <Content Include="Views\Notifications\Delete.cshtml" />
+    <Content Include="Views\Notifications\Details.cshtml" />
+    <Content Include="Views\Notifications\Edit.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Reconciliations\Create.cshtml" />
+    <Content Include="Views\Reconciliations\Delete.cshtml" />
+    <Content Include="Views\Reconciliations\Details.cshtml" />
+    <Content Include="Views\Reconciliations\Edit.cshtml" />
+    <Content Include="Views\Reconciliations\Index.cshtml" />
+    <Content Include="Views\AccountMonthlyHistoryItems\Create.cshtml" />
+    <Content Include="Views\AccountMonthlyHistoryItems\Delete.cshtml" />
+    <Content Include="Views\AccountMonthlyHistoryItems\Details.cshtml" />
+    <Content Include="Views\AccountMonthlyHistoryItems\Edit.cshtml" />
+    <Content Include="Views\AccountMonthlyHistoryItems\Index.cshtml" />
+    <Content Include="Views\Departures\Create.cshtml" />
+    <Content Include="Views\Departures\Delete.cshtml" />
+    <Content Include="Views\Departures\Details.cshtml" />
+    <Content Include="Views\Departures\Edit.cshtml" />
+    <Content Include="Views\Departures\Index.cshtml" />
+    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Accounts\Delete.cshtml" />
+    <Content Include="Views\Accounts\Details.cshtml" />
+    <Content Include="Views\Accounts\_Edit.cshtml" />
+    <Content Include="Views\Accounts\Index.cshtml" />
+    <Content Include="Views\BudgetItems\Create.cshtml" />
+    <Content Include="Views\BudgetItems\Delete.cshtml" />
+    <Content Include="Views\BudgetItems\Details.cshtml" />
+    <Content Include="Views\BudgetItems\Edit.cshtml" />
+    <Content Include="Views\BudgetItems\Index.cshtml" />
+    <Content Include="Views\BudgetPlans\Create.cshtml" />
+    <Content Include="Views\BudgetPlans\Delete.cshtml" />
+    <Content Include="Views\BudgetPlans\Details.cshtml" />
+    <Content Include="Views\BudgetPlans\Edit.cshtml" />
+    <Content Include="Views\BudgetPlans\Index.cshtml" />
+    <Content Include="Views\Accounts\CloseAccount.cshtml" />
+    <Content Include="Views\Shared\_Layout - Copy.cshtml" />
+    <Content Include="Views\Manage\Index - Copy %282%29.cshtml" />
+    <Content Include="Views\Account\_NotAuthorized.cshtml" />
+    <Content Include="Views\Accounts\Edit - Copy.cshtml" />
+    <Content Include="Views\Account\_NonExistentRecord.cshtml" />
+    <Content Include="Views\Transactions\_Edit.cshtml" />
+    <Content Include="Views\Transactions\_CreateIncomeTransaction.cshtml" />
+    <Content Include="Views\Transactions\_CreateExpenseTransaction.cshtml" />
+    <Content Include="Views\Transactions\_ReconcileTransaction.cshtml" />
+    <Content Include="Views\Account\Backups\Login - Copy.cshtml" />
+    <Content Include="Views\BudgetPlanCategories\_Create.cshtml" />
+    <Content Include="Views\BudgetPlanCategories\_Edit.cshtml" />
+    <Content Include="Views\Account\RegisterPostLanding.cshtml" />
+    <Content Include="Views\Account\Backups\Register.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Folder Include="Content\Images\Transaction Attachments\" />
+    <Folder Include="Models\Backups\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\Template\Fuze\vendor\mobile-detect\mobile-detect.d.ts" />
+    <TypeScriptCompile Include="Content\Template\Fuze\vendor\moment\moment.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
@@ -293,7 +1453,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54741</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54741/</IISUrl>
+          <IISUrl>https://localhost:44376/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -307,8 +1467,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

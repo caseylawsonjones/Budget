@@ -1,41 +1,110 @@
 ﻿@model Budget.Models.RegisterViewModel
 @{
+    Layout = null;
     ViewBag.Title = "Register";
 }
+<!DOCTYPE html>
+<html lang="en">
+    <head>
 
-<h2>@ViewBag.Title.</h2>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Images/Icons/favicon.png">
+        <title>Register</title>
+        <!-- STYLESHEETS -->
+        <style type="text/css">
+            [fuse-cloak],
+            .fuse-cloak {
+                display: none !important;
+            }
+        </style>
+        <!-- Icons.css -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/icons/fuse-icon-font/style.css">
+        <!-- Animate.css -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/animate.css/animate.min.css">
+        <!-- PNotify -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.css">
+        <!-- Nvd3 - D3 Charts -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.css" />
+        <!-- Perfect Scrollbar -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+        <!-- Fuse Html -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.css" />
+        <!-- Main CSS -->
+        <link type="text/css" rel="stylesheet" href="~/Content/Template/Fuze/css/main.css">
+        <!-- / STYLESHEETS -->
+    </head>
+    <body>
+        <div class="content-wrapper">
+            <div class="content">
+                <div id="register" class="p-8">
+                    <div class="form-wrapper md-elevation-8 p-8">
+                        <div class="title mt-4"><img src="~/Content/Images/Icons/tools.png" class=""/></div><!-- class (mb-8 main.css ln 1242)-->
+                        <div class="title mt-4">Create an account</div><!-- class (mb-8 main.css ln 1242)-->
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+                        <div class="form-group mb-4">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", id = "registerFormInputFirstName" })
+                            <label for="registerFormInputFirstName">First Name</label>
+                        </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                        <div class="form-group mb-4">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", id = "registerFormInputLastName" })
+                            <label for="registerFormInputLastName">Last Name</label>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "registerFormInputEmail" })
+                            <label for="registerFormInputEmail">Email Address</label>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "registerFormInputPassword" })
+                            <label for="registerFormInputPassword">Password</label>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", id = "registerFormInputPasswordConfirm" })
+                            <label for="registerFormInputConfirm">Confirm Password</label>
+                        </div>
+                        <br />
+
+                        <button type="submit" class="submit-button btn btn-block btn-secondary my-4 mx-auto" value="Register" aria-label="LOG IN">
+                            CREATE MY ACCOUNT
+                        </button>
+                        }
+                        <div class="login d-flex flex-column flex-sm-row align-items-center justify-content-center mt-8 mb-6 mx-auto">
+                            <span class="text mr-sm-2">Already have an account?</span>
+                            <a class="link text-secondary" href="/Account/Login">Log in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/jquery/dist/jquery.min.js"></script>
+        <!-- Mobile Detect -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/mobile-detect/mobile-detect.min.js"></script>
+        <!-- Perfect Scrollbar -->
+        <script type="text/javascript"
+                src="~/Content/Template/Fuze/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+        <!-- Popper.js -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/popper.js/index.js"></script>
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/bootstrap/bootstrap.min.js"></script>
+        <!-- Nvd3 - D3 Charts -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/d3/d3.min.js"></script>
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/nvd3/build/nv.d3.min.js"></script>
+        <!-- Data tables -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+        <!-- PNotify -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/pnotify/pnotify.custom.min.js"></script>
+        <!-- Fuse Html -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/vendor/fuse-html/fuse-html.min.js"></script>
+        <!-- Main JS -->
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/main.js"></script>
+    </body>
+</html>

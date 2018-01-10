@@ -1,0 +1,129 @@
+﻿@model Budget.Models.Transaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @*<h2>@Model.Title</h2>
+    <h4>@Model.Description</h4>
+    <h6>by @Model.Owner.FullName on @Model.Date</h6>
+    @if (Model.IsVoided == true) {
+        <h5 style="color:red;">This Transaction has been Voided and cannot be modified.</h5>
+    }
+    else {
+        if (Model.ReconciliationId != null) {
+            <h5 style="color:red;">This Transaction has been Reconciled and cannot be modified.</h5>
+        }
+    }
+
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>@Html.DisplayNameFor(model => model.Institution)</dt>
+        <dd>@Html.DisplayFor(model => model.Institution)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Account.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Account.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ConfirmationNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.ConfirmationNumber)</dd>
+
+        @if (Model.ExpenseId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Expense.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Expense.Name)</dd>
+        }
+
+        @if (Model.IncomeId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Income.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Income.Name)</dd>
+        }
+
+        @if (Model.ReconciliationId != null) {
+            <dt>@Html.DisplayNameFor(model => model.Reconciliation.Explanation)</dt>
+            <dd>@Html.DisplayFor(model => model.Reconciliation.Explanation)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.ReconciledDate)</dt>
+            <dd>@Html.DisplayFor(model => model.ReconciledDate)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.ReconcilerId)</dt>
+            <dd>@Html.DisplayFor(model => model.ReconcilerId)</dd>
+        }
+
+    </dl>
+</div>
+<p>
+@if (Model.ReconciliationId == null && Model.IsVoided == false) {
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    <span> &#124;</span>
+    @Html.ActionLink("Void", "VoidTransaction", new {  id = Model.Id })
+    <span> &#124;</span>
+}
+@Html.ActionLink("Back to List", "Index")
+</p>*@
+
+
+<div id="txDetails" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="img-10vh" src="~/Content/Images/Icons/refresh 3.png">
+            </div>
+            <div class="text-center">
+                <h2>@Model.Title</h2>
+                @if (Model.IsReconciled == true) {
+                    <dl>
+                        <h4 style="color:green">Reconciled</h4>
+                        <dt>Correct Amount:</dt>
+                        <dd>@Model.Amount.ToString("{0:C}")</dd>
+                        <dt>Entered Amount:</dt>
+                        <dd>@Model.ReconciledIncorrectAmount.Value.ToString("{0:C}")</dd>
+                    </dl>
+                }
+                else {
+                    <dl>
+                        <dt>Amount:</dt>
+                        <dd>@Model.Amount.ToString("{0:C}")</dd>
+                    </dl>
+                }
+            </div>
+        </div>
+        <div>
+            <span class="h4">@Model.Category.Category Transaction</span>
+            <p style="font-size:x-small; color:gray">(Occurred: @Model.Date)</p>
+            <span class="h5">@Model.Description</span>
+            <br />
+        </div>
+        <div>
+        @Html.ActionLink("Edit Transaction", "Edit", "Transactions", new { id = Model.Id }, new { @class = "btn btn-info" })
+        <span> &nbsp;</span>
+        @Html.ActionLink("Void Transaction", "VoidTransaction", "Transactions", new { id = Model.Id }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <br />
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @*<li class="nav-item">
+                <a class="nav-link btn active" id="transactions-tab" data-toggle="tab" href="#transactions"
+                   role="tab" aria-controls="transactions-tab-pane" aria-expanded="true">Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn" id="reconciliations-tab" data-toggle="tab" href="#reconciliations"
+                   role="tab" aria-controls="reconciliations-tab-pane" aria-expanded="true">Reconciliations</a>
+            </li>*@
+        </ul>
+        <div class="tab-content">
+        </div>
+    </div>
+
+    <!-- / CONTENT -->
+    @section scripts{
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    }
+</div>

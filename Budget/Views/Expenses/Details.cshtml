@@ -1,0 +1,217 @@
+﻿@model Budget.Models.Expense
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="expenseDetails" class="page-layout simple tabbed">
+    <!-- HEADER -->
+    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-6">
+        <div class="row no-gutters align-items-center">
+            <div class="product-image mr-4">
+                <img class="img-10vh" src="~/Content/Images/Icons/upload 2.png">
+            </div>
+            <div class="text-center">
+                <h2>@Model.Name</h2>
+                <div class="h4" style="color:green;">@Html.DisplayFor(model => model.EstimatedAmount)</div>
+            </div>
+        </div>
+        <div>
+            <span class="h4">@Model.Category.Category.ToString() Expense</span>
+            <br />
+            <span class="h5">@Model.Description</span>
+            <br />
+        </div>
+        <div>
+            @if (Model.IsActive == false) {
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.EndDate)</dt>
+                    <dd>@Html.DisplayFor(model => model.EndDate)</dd>
+                </dl>
+            }
+            @if (Model.IsActive)
+            {
+                <a href="javascript:void(0)" onclick="loadTxGenerate(@Model.Id)" data-target="#GenerateTx" data-toggle="modal" class="btn btn-success">Generate Transaction</a>
+                <span> &nbsp;</span>
+                @*@Html.ActionLink("Deactivate Expense", "DeactivateExpense", "Expenses", new { id = Model.Id }, new { @class = "btn btn-danger" })*@
+                <a href="#" data-toggle="modal" data-target="#DeactivateExpenseModal" class="btn btn-danger">Deactivate Expense</a>
+
+            }
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <br />
+    <!-- CONTENT -->
+    <div class="page-content">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link btn active" id="transactions-tab" data-toggle="tab" href="#transactions"
+                   role="tab" aria-controls="transactions-tab-pane" aria-expanded="true">Transactions for This Expense</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!-- Transactions Table -->
+            <div class="tab-pane fade show active" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
+                <table id="transactions-table" class="table dataTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Date)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Amount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Category.Category)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Owner)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).Institution)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).ReconciledDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.Transactions.FirstOrDefault(x => x.Id > 0).ConfirmationNumber)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Transactions.Where(t => t.IsVoided == false)) {
+                            <tr>
+                                <td><a href="javascript:void(0)" onclick="loadTxDetails(@item.Id)" data-target="#TxDetails" data-toggle="modal">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                <td><span style="color:red">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                                <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Owner.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institution)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ReconciledDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ConfirmationNumber)</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="loadTxForEdit(@item.Id)" data-target="#EditTx" data-toggle="modal">Edit</a> |
+                                    <a href="#" data-toggle="modal" data-target="#VoidTxModal_@item.Id">Void</a>
+                                </td>
+                            </tr>
+                                <!-- VOID TRANSACTION MODAL -->
+                            <div class="modal fade" id="VoidTxModal_@item.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Voiding of Transaction</h5>
+                                            <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 style="text-align:center; color:firebrick">@item.Title</h2>
+                                            <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            @Html.ActionLink("Void", "VoidTransaction", "Transactions", new { id = item.Id }, new { @class = "btn btn-danger text-center" })
+                                            <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT TRANSACTION MODAL - loads a Partial View -->
+    <div class="modal fade" id="EditTx" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Transaction Information</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="editTxLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSACTION DETAILS MODAL - loads a Partial View -->
+    <div class="modal fade" id="TxDetails" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transaction Details</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxDetailsLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPENSE GENERATE TRANSACTION MODAL - loads a Partial View -->
+    <div class="modal fade" id="GenerateTx" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generate Transaction from Expense</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="TxGenerateLoad" style="overflow-y: scroll">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEACTIVATE EXPENSE MODAL -->
+    <div class="modal fade" id="DeactivateExpenseModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Expense Deactivation</h5>
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 style="text-align:center; color:firebrick">@Model.Name</h2>
+                    <h5 style="text-align:center; color:lightgray">(This Action Cannot Be Undone)</h5>
+                    <div class="container">
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    @Html.ActionLink("Deactivate Expense", "DeactivateExpense", "Expenses", new { id = Model.Id }, new { @class = "btn btn-danger text-center" })
+                    <input type="submit" value="Cancel" class="btn btn-default text-center" data-dismiss="modal" aria-label="Close">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- / CONTENT -->
+    @section scripts{
+        <script type="text/javascript" src="~/Content/Template/Fuze/js/apps/dashboard/project.js"></script>
+        <script src="~/Content/Template/Fuze/vendor/datatables.net/js/jquery.dataTables.js"></script>
+        <script>$("#transactions-table").DataTable({ "order": [[1, 'desc']] });</script>
+        // This script loads the modal for editing Transactions
+        <script>
+            function loadTxForEdit(id) {
+                $('#editTxLoad').load('/Transactions/_Edit/' + id);
+            }
+        </script>
+        <script>
+            function loadTxDetails(id) {
+                $('#TxDetailsLoad').load('/Transactions/_Details/' + id);
+            }
+        </script>
+        <script>
+            function loadTxGenerate(id) {
+                $('#TxGenerateLoad').load('/Transactions/_CreateExpenseTransaction/' + id);
+            }
+        </script>
+
+
+
+    }
+</div>

@@ -1,0 +1,70 @@
+﻿@model Budget.Models.ViewModels.CloseAccountViewModel
+@{
+    ViewBag.Title = "CloseAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>The Account <span class="font-italic" style=" color: gray;">@Model.ClosedAccount.Name</span> has been closed.  Its associated Income and Expense items are no longer assigned to an Account.</h2>
+
+<h3>Below are lists of the affected Income and Expense Items.<br />
+    You can click the appropriate button for each to either reassign to a new Account or deactivate.</h3>
+<hr />
+<h3>Incomes</h3>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Name)</th>
+        <th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Description)</th>
+        <th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Category.Category)</th>
+        @*<th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Frequency.Frequency)</th>
+        <th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).FrequencyIndex)</th>*@
+        <th>@Html.DisplayNameFor(model => model.IncomesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).EstimatedAmount)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.IncomesWithNoAssociatedAccount) {
+        <tr>
+            <td><a href="/Incomes/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.Frequency.Frequency)</td>
+            <td>@Html.DisplayFor(modelItem => item.FrequencyIndex)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.EstimatedAmount)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-critical"}) |*@
+            </td>
+        </tr>
+    }
+
+</table>
+<hr />
+<h3>Expenses</h3>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Name)</th>
+        <th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Description)</th>
+        <th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Category.Category)</th>
+        @*<th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).Frequency.Frequency)</th>
+        <th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).FrequencyIndex)</th>*@
+        <th>@Html.DisplayNameFor(model => model.ExpensesWithNoAssociatedAccount.FirstOrDefault(e => e.Id > 0).EstimatedAmount)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ExpensesWithNoAssociatedAccount) {
+        <tr>
+            <td><a href="/Expenses/Details/@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.Category.Category)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.Frequency.Frequency)</td>
+            <td>@Html.DisplayFor(modelItem => item.FrequencyIndex)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.EstimatedAmount)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-critical" }) |*@
+            </td>
+        </tr>
+    }
+
+</table>
+<!-- Modal for Verifying deactivation of the Income or Expense -->
+<!-- Modal for Assigning new Account -->
